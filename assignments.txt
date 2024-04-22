@@ -1,0 +1,1202 @@
+Lesson 1 homework assignments:
+Lab 1.1 First House:
+In Lesson A1, you learned how to read an API and explored the gpdraw library as an example. In order to give you a chance to apply your knowledge, you will write a program that draws a picture of a house using gpdraw. This is a creative, open ended project that will allow you to freely explore, try new things and challenge yourself.
+
+For this lab, you should have only one class named in the format PX_LastName_FirstName_FirstHouse
+Write all your house code in the main method
+Use program comments to explain each section of your house code
+Use local variables to generalize the parts of your house
+At least one part must be complex, fancy, and awesome
+
+Lab 1.2 Second House:
+In Lab 1.1 First House, you used the gpdraw library to draw a house all in the main method. This is fine when your house has only a few parts, but what if you wanted to have 6 windows, each with some customization? In that case, it would be nice if for each window, you could call the same method and pass different parameters. The focus of second house will be to create a house where the parts are drawn in customizable methods with parameters.
+    
+Workflow:
+For this lab, you should have only one class named in the format PX_LastName_FirstName_SecondHouse
+Declare your DrawingTool as a static variable above the main method so it is accessible throughout the class: static DrawingTool pen;
+Instantiate the DrawingTool at the beginning of the main method: pen = new DrawingTool(paper);
+Make sure you are just initializing the static field, rather than declaring a different local variable with the same name. If you get a null pointer exception when trying to call a method on your drawing tool in another function, it may be because you failed to instantiate the DrawingTool correctly.
+Each method you write for house parts must also be declared static: public static void drawWindow(int width, int height, ...)
+
+Pick one of the house parts you already generalized and create a separate method for that part.
+
+It's your choice whether you want to include (x, y) position in the method parameters or just move the pen before calling the method.
+Make each of your variables a parameter of your method.
+Test your method by drawing multiple copies of that part with different locations, colors, size, etc.
+For each generalized part of your house, instead of just having a section of the main method using variables, move that code into a method that takes parameters, where each variable is a parameter.
+Lab Requirements:
+You have at least two methods that draw a house part using parameters.
+Your picture uses your methods to draw multiple versions of the parts with different properties.
+Improve your overall house by adding more complexity and features.
+
+Lesson 2 homework assignments:
+Lab 2.1 Final House Checkpoint:
+For SecondHouse, you implemented functional programming by writing independently runnable methods to draw parts. What would someone have to do if they wanted to include your Window in their house? What's a better way? In this lab, you will learn to create classes that can be used by yourself or others in multiple projects.
+
+Object Oriented Programming
+Using object oriented programming, you can create classes that can be used in multiple projects without having to copy paste methods. For example, you have been using the DrawingTool and SketchPad classes.
+
+If you wanted to create a custom Window class you could do the following:
+
+Move your window code to a Window class
+Add attributes, constructors, methods
+Use the new Window blueprint to create Window objects
+Drawing separate objects on a single SketchPad
+There are multiple ways to draw on the same sketchpad, but what it comes down to is that every DrawingTool used must reference the same sketchpad. With that in mind, here is a strategy for making multiple classes all draw on a single SketchPad:
+
+Accept a SketchPad object in your Constructors
+Each of your classes should declare a DrawingTool instance variable
+Instead of creating a new SketchPad in your separate classes, pass on the SketchPad parameter to the DrawingTool when you initialize the DrawingTool.
+The SketchPad is created at the beginning of the main method in a separate driver class and is passed in to the constructor of each house part.
+In the HouseDriver that draws your whole house, the SketchPad can be a static field declared at the top of your class and initialized in the main method just as you did in Lab 1.2 SecondHouse, since you will still have some parts of your house drawn with static helper methods in the driver.
+Later, once all the house parts are drawn by other classes, you can make the SketchPad a local variable declared and initialized inside the main method because you won't need any other methods in the driver that need access to the SketchPad.
+Workflow
+Pick one of your house parts and create a separate class for that house part. Each class should be named in the format PX_LastName_FirstName_PartName. For example, if Karel Barker was in 2nd period and created a Window class, they would name it P2_Barker_Karel_Window.
+At first, only add attributes for x-position, y-position and DrawingTool
+Add a Constructor that takes a SketchPad and x, y position and initializes the x, y attributes and the DrawingTool
+Make sure to initialize the DrawingTool to use the SketchPad passed in to the part's constructor.
+Add a draw() method that draws your house part relative to the x, y position. Think carefully about and document which part of your house part will be located at (x, y). For example, if your part is a window, is (x, y) the center of the window? The upper left corner? bottom left corner?...etc
+You may have to update your code to get rid of any hardcoding of positions
+Everything else like size and Color can stay hard-coded for now
+Update your main method to create and use your house part. Test it for different x, y positions.
+Next, add simple attributes like color
+Add a custom Constructor that receives the same info as the previous constructor but also the new attributes you added.
+Update your main method to use the custom constructor. Test it for different colors, etc.
+Add scalability
+The user of this class should be able to customize size of this object. You can let users choose both width and height or just width and have the height depend on the width, etc
+Update your custom Constructor to also receive a width and height (or just one of these) so that users can choose the size.
+You should draw everything based on the location x, y, and scale width, height attributes.
+To test your code, you should make a separate TestDriver that just creates instances of your classes and draws them, rather than drawing your entire house picture.
+Create different instances of this part with different positions and sizes. Most of you will need to update your code to work with scaling. No hard-coding!
+Add other customizable properties using setter methods such as number of flower petals, whether a door is open/closed, number of puffs in a cloud, etc.
+Final House Checkpoint Requirements
+Create separate classes for at least 2 of your house parts.
+At least one of your classes needs to be a complex part.
+Create a separate HouseDriver class with a main method that creates instances of your classes and draws the house. The parts of your house represented by the classes you created will be drawn using instances of those classes, but the rest of your house will still be drawn in the main method and in helper methods. Since you will still have some parts of your house drawn static methods, the driver can still have a static SketchPad, but that same SketchPad should be passed to the constructor of each house part class.
+Each class should have its own attributes that allow it to be customized to different locations, sizes, colors...etc
+Each class should have at least two constructors
+One constructor accepts only a SketchPad and an (x, y) location defining where to draw this object. All other attributes should be initialized to reasonable defaults.
+The other constructor accepts additional parameters to customize the look, size, shape, etc (Note: Don't make your parameter list too long. Leave some things for setter methods)
+Each class should include setter methods to set attributes not handled by the constructors
+Add Javadoc comments to your house part classes
+Update your main method to create and use your house part objects.
+
+Lab 2.2 FinalHouse:
+For this lab, you will make any final additions/improvements and have at least three of your parts as separate, reusable classes.
+
+At least three of your houseparts must be written using separate classes.
+Each class should have its own attributes
+Each class should have at least two constructors. One constructor accepts only a SketchPad and location x, y where to draw this object. The other constructor accepts additional parameters to customize the look, size, shape, etc. (Note: Don't make your parameter list too long. Leave some things for setter methods)
+Each class should include setter methods to set attributes not handled by the constructors
+Add Javadoc comments to your house part classes
+a javadoc description for the class including a description of what it draws, how it can be customized, example usage and an @author and @version
+a javadoc for each constructor, including @param tags for each parameter
+a javadoc for each public method, including @param tags for each parameter and an @return if the method returns a something
+Update your main method to create and use your house part objects.
+In your Driver's main method, you can still have parts of the picture that are drawn directly as they were before, however, your customizable parts should be created by making instances of those separate classes and calling draw() on them.
+
+Lab 2.3 CoolHouse:
+For this lab, you will make a fancy house scene using house part classes written by your classmates.
+
+Download the JAR file for your period (see Schoology assignment) and install it in BlueJ the same way you did with gpdraw.
+Make an awesome house scene with lots of fancy parts using your classmates' house parts. You could even have multiple houses in the same scene.
+Detailed Workflow:
+Download the jar file (i.e. period_1_house_parts.jar)
+Open BlueJ
+Go to BlueJ -> Preferences -> Libraries Tab -> Add File and select period_1_house_parts.jar (Exact menus may vary from mac to PC but it is the same process you used to add the gpdraw.jar library)
+Reset the Java Virtual Machine (Tools --> Reset Java Virtual Machine). There is also a button in the bottom right of the main BlueJ Window that resets the Java Virtual Machine. It looks like a arrow showing a U-Turn. FYI this is also how you can end program that is stuck in an infinite loop in BlueJ. Worst case, you can totally quit BlueJ to reset the JVM, but that is overkill.
+Create a class
+import period_1_house_parts.*;
+import gpdraw.*;
+Create a main method.
+In the main method. create a SketchPad and DrawingTool
+Look in the API to find a class you want to use.
+See what constructors and methods the class has.
+Create an instance of the class, passing the desired values for each parameter.
+Call any of the desired setters to set attributes
+call draw() on the instance of the class you created
+Run your program to see what the door looks like. If you like it, modify the attributes as needed to make it a part of your overall picture.
+Repeat steps 10-15 until you have a complete scene.
+
+Lesson 4 homework assignments:
+Lab 4.1 Sphere:
+Plan your class:
+On scratch paper, plan out a Sphere class by brainstorming what you want to have inside the class. Be very specific, but don’t write actual Java code yet. Include in your brainstorm a plan for how you will draw your sphere using gpdraw.
+
+Attributes: (What variables and information do you want your Sphere class to keep track of?)
+
+Pro tip: Don't include data that can be calculated from other data. For example, students are often tempted to have an attribute to store the volume of the sphere, but it's better to have a method that computes and returns the sphere's volume whenever you want it.
+
+Constructors: (What will your default constructor do? What additional constructors will you provide?)
+
+You must have a default contructor (i.e. no parameters)
+You must have at least one non-default constructor
+Methods: (What methods will your Sphere class have?)
+
+You must have getter and setter methods (Lesson 4 explains both kinds of methods)
+You must include a draw() method that draws the sphere
+You must include a getVolume() method that computes and returns the volume of the sphere as a double. You may use the Java Math API to help compute volume, but that is neither necessary nor required.
+Pro tip: Methods that return values should not print anything. You can print the volume in your Driver by calling and printing the result of getVolume().
+
+You should include any other methods you think would be useful
+Write your class:
+Translate your ideas from your scratch paper into a working Java class and submit your code below.
+
+public class Sphere {
+
+        // Attributes (also called instance variables)
+        ...
+
+        // Constructors
+        ...
+
+        // Methods
+        /* Getter & Setter methods */
+        ...
+
+        /* Other methods */
+        public void draw() { }
+        ...
+
+} // End of Sphere class
+
+Write a separate Driver class:
+In a separate Driver class, write a main method to create and draw several different versions of your Sphere. Submit your Driver and Sphere class below, but before you do, make sure you have:
+
+Additional Notes:
+You can choose to make your sphere filled or not filled, but either way it should clearly be a sphere and not just a circle. Do a google search for sphere and you should see some examples. To meet the minimum requirements, your code must use at least one loop to draw part of the sphere.
+
+Lesson 5 homework assignments:
+Lab 5.2 Illusions:
+When programmers solve problems via code, they often use employ two practices:
+Helper methods are methods written to be used inside other methods. They help break a problem into smaller chunks of reusable code.
+Generalized methods are methods that can behave differently based on the parameters passed into them. It's the exact opposite of hard-coding every detail. Instead of hard-coding values, one uses variables to make calculations and when the variables change, so does the result.
+When you write the methods for this lab, you must use both of the practices described above.
+Find an illusion that that can be properly decomposed into generalized helper methods. If your illusion does not lend itself to using lots of generalized helper methods that take parameters, you should choose a different illusion.
+To ensure you have generalized helper methods:
+No attributes at all are allowed (not even a DrawingTool or SketchPad)
+All methods must be static
+All methods must accept parameters
+The Driver class should only have to call your overall draw(...) method, passing in all needed parameters.
+Lab Requirements:
+You should not have any constructors. This is because all your methods should be static and don't need an object to run them.
+No attributes are allowed. None at all.
+Your illusion must be decomposed into static helper methods, all of which solve a subproblem of your illusion, and that take parameters that determines the overall properties of the illusion (i.e. drawing tool, position, colors, size, etc.)
+Most helper methods should call other helper methods passing relevant parameters.
+Make a Driver that draws at least two different versions of your illusion in the same SketchPad or on different SketchPads.
+While writing your code, you should test your helper methods independently to make sure they work properly
+Write javadocs for the class summary and methods
+Name your classes using the format PX_LastName_FirstName_Illusion and PX_LastName_FirstName_Driver
+
+Lesson 6 homework assignments:
+Lab 6.1 Taxes:
+Write a program that calculates, stores, and prints tax info about one person. The constructor will take the hours worked and the hourly rate paid. You are not required to line up the decimal points in your output. Note: “Gross Pay” means income before tax is deducted, and “Net Pay” means income after tax is deducted. Here is an example output:
+    Hours worked: 30.0
+    Hourly rate: 16.35
+
+    Gross pay: 490.5
+
+    Federal Tax (12.4%): 60.822  
+    FICA Tax (7.75%): 38.01375  
+    State Tax (9.3%): 45.6165
+
+    Net pay: 346.04775
+Your program may give a slightly different net pay answer due to rounding off issues. Do not worry about this difference.
+Use final values to store the tax rates in your program.
+
+Details:
+Please do not hard-code the tax percentages
+Instead, use the final keyword to make constants for tax rates
+Make sure all final variables are CAPITALIZED_WITH_UNDERSCORES_BETWEEN_WORDS
+The constructor will take the hours worked and the hourly rate paid
+The structure of the program is up to you - but you should separate the Taxes class from the Driver.
+Among your Taxes methods, include getters, setters, and a printTaxes method.
+Consider which access modifier is appropriate for each field and method
+Your Taxes class should never print the wrong values no matter what you do in the Driver.
+
+Lesson 7 homework assignments:
+Lab 7.1 MadLibs:
+Mad Libs is a word game where the game master asks players to think of nouns, verbs, adjectives, etc. that will be inserted blindly into a story. The resulting story is often humorous, awkward, nonsensical, and silly.
+Lab Instructions:
+Write a MadLibs story of your own creation that meets the following criteria:
+Prompts users to enter various information using the Scanner API
+At least 2 integers (use nextInt())
+At least 2 doubles (use nextDouble())
+At least 6 Strings (use next() or nextLine())
+Displays the resulting story using a SINGLE printf statement.
+Use \n to insert line breaks
+A long String can be connected with +. For Example: "This is a single String that " + " is spread out over " + " several lines.";
+
+Example Run 
+Do not copy the example. Make your own story and inputs.
+
+Welcome to Mad Libs!
+
+Please enter an emotion: embarrassed
+Please enter an adjective: silly
+Please enter a body part: knee
+Please enter an integer: 2
+Please enter an adjective: fuzzy
+Please enter an adverb: happily
+Please enter a body part: nose
+Please enter a double: 3.14159
+Please enter a verb ending in "ing": shouting
+Please enter a sport: baseball
+Please enter an emotion: scared
+Please enter an adjective: flexible
+Please enter a verb ending in "ing": running
+Please enter an integer: 223
+Please enter an integer: 51
+Please enter a food or drink: boba
+Please enter a double: 0.0001
+Please enter a plural food: crackers
+Please enter a profession: electrician
+Thanks!  Here's your Mad Lib Story:
+Pandemic by Mr. Ferrante
+In these times, it is important to stay embarrassed and to keep a silly knee. Keep in touch with your family and all 2 of your friends. Although life may no longer be fuzzy, happily take life into your own nose by taking action. First, get at least 3.14159 minutes of exercise each day by shouting or by playing baseball by yourself. Second, find ways to stay scared throughout the day by taking frequent breaks from screens, getting something flexible to eat, and by running or meditating. Finally, get a good night's rest and maintain a healthy diet. Doctors recommend 223 hours of sleep and drinking 51 cups of boba per day to stay hydrated. And don't forget the old adage: "0.0001 crackers a day keeps the electrician away!"
+
+Warning: Using .nextLine() after using .next() or .nextInt() or .nextDouble(), etc. will result in a blank return value
+
+Lesson 8 homework assignments:
+Lab 8.1 CheckMail:
+Write a program that takes in the weight of the package and the three dimensions of the package in any order. (You may put all your code in the main() method.) The program should determine the longest dimension of the package, calculate the girth, and compute the size of the box. The program should then print out one of the following messages about this package:
+Package is too large and too heavy.
+Package is too large.
+Package is too heavy.
+Package is acceptable.
+Let’s look at how to design this class.
+Stepwise refinement 1 - Overall sections of this problem:
+Get data from user
+Solve math
+Print answer
+
+Stepwise refinement 2 - More detailed pseudocode version:
+Prompt user for three dimensions
+Prompt user for weight
+
+Determine longest of three dimensions
+
+Calculate the girth using the other two dimensions
+
+if package is too big and too heavy, print appropriate message
+
+else if package is too big, print appropriate message
+else if package is too heavy, print appropriate message
+else print package is acceptable
+
+Requirements
+Do all your work in the main() method.
+The user can enter the 3 dimensions in any order so you need to work out which is the largest regardless of the order they entered the dimensions in.
+There are four distinct cases for possible package types. Make sure you've tested your code and that it works for all the cases. The cases are shown below.
+The program should print out exactly one of the following messages about any given package:
+Package is too large and too heavy.
+Package is too large.
+Package is too heavy.
+Package is acceptable.
+
+Lab 8.2 Happiness Detector:
+You are writing a class that can be used to determine if a number is happy or not. To do so, you will implement an interface. When a class implements an interface it is promising to implement all the methods listed in the interface. For this reason, other classes can safely call any of the interface methods on any instance of a class that implements that interface because it must have a method with that signature and return type defined.
+Implementing Interfaces
+To implement an interface, a class simply needs to use the implements keyword followed by the interface name:
+
+public class MyClass implements MyInterface {
+    // define attributes, constructors and methods...
+}
+An interface is declared like a class, but is just a list of methods with no implementation. Here is an example:
+
+public interface MyInterface {
+    public void printStuff();
+    public int calcStuff(int a);
+}
+In the example above, if MyClass implements MyInterface, then it MUST implement ALL methods listed in the interface declaration. For example:
+
+public class MyClass implements MyInterface {
+
+// implementing the printStuff method
+    public void printStuff() {
+        System.out.println("stuff");
+}
+
+// implementing the calcStuff method
+    public int calcStuff(int a) {
+        return a * 5;
+    }
+}
+
+Lab directions:
+The class you write will be implementing the HappinessDetector interface, which is defined in the com.controlStructures package. Follow these steps to get started:
+Download the controlStructures.jar library. (found on website)
+In BlueJ you will need to go to Tools -> preferences -> Libraries and add controlStructures.jar, just like you did for gpdraw. Don't forget to reload the Java Virtual Machine or close and restart BlueJ.
+Read the documentation for the com.controlStructures package so you will understand how to implement the HappinessDetector interface and how to use the Tester class to test your class.
+Write a class, using the standard naming convention PX_LastName_FirstName_HappinessDetector, that implements the HappinessDetector interface. If you get the message, "cannot find symbol - class xxx," it's because you either did not follow Step 1 and 2 completely or you did not import class xxx. See the top of an API for the import location.
+Create a Driver class that calls the static runTests method of the Tester class and passes it an instance of your PX_LastName_FirstName_HappinessDetector class. If you get the message, "cannot find symbol - class xxx," it's because you did not import that class
+Keep fixing bugs until your class passes all tests.
+
+Lesson 9 homework assignments:
+Lab 9.1 Fibonacci:
+Write a recursive method that takes in a single integer (x >= 0) and returns the appropriate Fibonacci number.
+Write a recursive method that solves a multiplication problem of two positive integers.
+Write a recursive method that solves a multiplication problem of any two integers, whether positive or negative.
+
+Lab 9.2 KochCurve:
+The procedure for creating a Koch curve is usually recursive. At each level, we observe that a Koch curve is made up of four smaller Koch curves. This process can be described in the following pseudocode:
+if level < 1 then
+   Move forward length pixels
+else
+   Draw a k-1 level Koch curve with segments 1/3 the current length
+   Turn left 60 degrees
+   Draw a k-1 level Koch curve with segments 1/3 the current length
+   Turn right 120 degrees
+   Draw a k-1 level Koch curve with segments 1/3 the current length
+   Turn left 60 degrees
+   Draw a k-1 level Koch curve with segments 1/3 the current length
+
+Instructions:
+Write a KochCurve program that uses DrawingTool and provides a drawKochCurve method for drawing Koch curves. Each drawKochCurve method can take the number of levels and an initial size as its parameters. Sample usage of the method to draw a 6 level Koch curve of length 300 would be:
+
+P3_Wang_Michael_KochCurve curve = new P3_Wang_Michael_KochCurve();
+curve.drawKochCurve(6, 300);
+Create a Koch Snowflake. The Koch snowflake includes three Koch curves arranged in a triangle.
+
+For fun, you can also create a Koch Antisnowflake. This isn't a lab requirement, but it's easy to do once you finish the main lab and it looks cool!
+
+For an optional challenge, try to draw a Koch Snowflake interatively (using loops). The method header should be
+
+public void drawKochCurveIteratively(level, length)
+
+Lesson 10 homework assignments:
+Lab 10.1 Iterative Reverse and Palindrome:
+You will create a class that will perform two different functions on Strings that are sent to it. All of the methods you create will be static, and the class should work in a similar manner to the Math class. Any helper methods that you write should be private because they are only used internally within the class.
+
+Problem 1 iterativeStringReverse
+Create an iterative method named iterativeStringReverse that receives a String and returns a String that is the exact reversal of the characters in the first String. An iterative solution is one that uses loops.
+
+Use these test cases for your run outputs:
+
+    123456789  
+    12345678  
+    A  
+    empty string
+Problem 2 iterativeIsPalindrome
+Create a method named iterativeIsPalindrome that receives a String and returns a boolean value of true if the String is a Palindrome and false if it is not. A word is a palindrome if it reads the same forwards and backwards. For example, the word level is a palindrome.
+
+You should solve Problem 2 independently of Problem 1. Therefore, you cannot just return whether inputString.equals(recursiveStringReverse(inputString)); Instead, solve this isPalindrome problem without having to reverse the String. The point is to practice iteration.
+
+The idea of a palindrome can be extended to phrases or sentences if we ignore details like punctuation. Here are two familiar examples:
+
+    Madam, I'm Adam  
+    A man, a plan, a canal: Panama
+We can recognize these more elaborate examples as palindromes by considering the text that is obtained by removing all spaces and punctuation marks and converting all letters to their lower-case form.
+
+    Madam, I'm Adam ==> madamimadam  
+    A man, a plan, a canal: Panama ==> amanaplanacanalpanama
+If the "word" obtained from a phrase in this manner is a palindrome, then the phrase is a palindrome. Your method should ignore the case of the letters. A palindrome is determined by considering only alphabetic characters (a - z, A - Z) and numbers (0 - 9) as valid text. You are not allowed to use replaceAll method and regular expressions. You may find the String and Character class API useful.
+
+Lab 10.2 Shorthand:
+Create a method named translateToShorthand that receives a String and returns the String converted into shorthand. You may not use the String methods replace() or replaceAll() but you may write your own helper methods to replicate these String methods if you would like. Words are separated by at least one non-letter character, but it does not need to be a space. Any words that are not replaced should keep their capitalization form. There are many approaches to this problem. The simplified shorthand form of a string is defined as follows:
+
+Replace these four words: "and" with "&", "to" with "2", "you" with "u", and "for" with "4" whenever they appear as separate words within a sentence.
+Remove all vowels ('a', 'e', 'i', 'o', 'u'), whether lowercase or uppercase, unless the vowel appears by itself.
+For example, "For I shall love you forever" becomes "4 I shll lv u frvr"
+
+Before you turn in your program...
+Does your method replace words with mixed capitalization? Ex: And, AND, aND, etc.
+Does your method preserve capitalization for non-replacement words?
+Does your method work with ANY punctuation, not just spaces and specific punctuation?
+Did you follow the rule of NOT using the String methods replace or replaceAll?
+
+Try these test cases (in the format of case ==> expected result):
+A truck ==> A trck
+Me AND YOU forever! ==> M & u frvr!
+To Bill and Ted: Are you going to be EXCELLENT to towtrucks too???  ==> 2 Bll & Td: r u gng 2 b XCLLNT 2 twtrcks t???
+Look, here's a 3.14159 I made for you! And? How's it taste? ==> Lk, hr's a 3.14159 I md 4 u! &? Hw's t tst?
+MY mAmA aLWaYs said, "LIFe iS like a box of chocolates...you never know what you're gonna get!" ==> MY mm LWYs sd, "LF S lk a bx f chclts...u nvr knw wht u'r gnn gt!"
+!!aNd!! !tO? ****yOu***foR** fork toward young fo   ==> !!&!! !2? ****u***4** frk twrd yng f
+
+Lab 10.3 PigLatin:
+Create a method named translateToPigLatin that receives a String, converts each word in the String to Pig Latin, and returns the new Pig Latinated string. Here's how to translate the English word englishWord into the Pig Latin word pigLatinWord:
+
+If there are no vowels in englishWord, then pigLatinWord is just englishWord + "ay". (There are ten vowels: 'a', 'e', 'i', 'o', and 'u', and their uppercase counterparts. ‘y’ is not considered to be a vowel for the purposes of this assignment, i.e. my becomes myay, why becomes whyay, etc.)
+Else, if englishWord begins with a vowel, then pigLatinWord is just englishWord + "yay".
+Otherwise (if englishWord has a vowel in it but doesn't start with a vowel), then pigLatinWord is end + start + "ay", where end and start are defined as follows:
+Let start be all of englishWord up to (but not including) its first vowel.
+Let end be all of englishWord from its first vowel on.
+But, if englishWord is capitalized, then capitalize end and "uncapitalize" start.
+"Astahay alay istavay, abybay." - The Piglatinator
+
+Before you turn in your program...
+
+Does your program re-capitalize words properly? (Basic version)
+Does your program handle simple punctuation? (Advanced version)
+
+Simple punctuation is defined as any sequence of punctuation marks that appear at the end of a word.
+Example: "Hello!!! How are you, Bill?"
+Try these Basic test cases:
+
+Hasta la vista baby ➜ Astahay alay istavay abybay
+Hey you Do you know how to speak in Pig Latin ➜ Eyhay ouyay Oday ouyay owknay owhay otay eakspay inyay Igpay Atinlay
+Try these Advanced test cases:
+
+Hasta la vista, baby! ➜ Astahay alay istavay, abybay!
+Hey you! Do you know how to speak in Pig Latin? ➜ Eyhay ouyay! Oday ouyay owknay owhay otay eakspay inyay Igpay Atinlay?
+
+Lab 10.6 ComplexUserInput:
+In some programs, user input could be more complex than a number, boolean or string. This makes it easier for users to enter commands without answering multiple prompts.
+Examples:
+Ask the user to enter 2 integers separated by white space such as 12 95
+Ask the user for a set of points (i.e. 12 4 15 99 88 123 ⇒ (12, 4) (15, 99), (88, 123))
+Ask the user to enter a command such as "buy 7 bananas" or "sell 8 apples"
+Let's take the first example as a starting point: When a user is asked for exactly two integers, separated by white space, your program could throw an exception if they don't enter valid input. For example consider the following invalid responses:
+those two
+1, 5
+1 5 8
+In order to handle invalid input gracefully, you will need to make sure the input is valid before trying to parse it. One way to do this for the above example is to do the following:
+Read the whole line and store it in a string.
+Make a new Scanner that will read the line (use the constructor that takes a String).
+Parse the line using that scanner by grabbing the next two tokens as ints.
+Before each call of nextInt(), you should first check that there is a next token that is an int (see hasNextInt() in the Scanner API).
+If the user entered extra numbers, you can detect that with one more call, but this time use hasNext() rather than hasNextInt() because you will need to detect if there is anything left regardless of whether it is an int. It is invalid for them to enter anything after the two ints.
+You should either have the two ints or have determined the input was invalid, so now you can return the input or print the appropriate error message and repeat the process.
+In order to return the input, you will need a class that stores all the data. In this case, the input is two integers, so we need a class that stores two int values.
+
+Make a Move class (named appropriately, for example P1_Wang_Michael_Move.java) with:
+Two instance variables that store the ints.
+A constructor that initializes the two ints
+Getters and setters as needed
+A toString method that returns a string with the two numbers in the format (1, 2)
+A static method that prompts the user with a given prompt and returns a Move object containing the two integers entered. Each time the user enters invalid input, a message informs them of the invalid input and they are prompted again. To be valid, the input must be exactly two integers, separated by white space.
+The method should take a Scanner and a String as parameters
+The Scanner is the scanner used to get information from the user
+The String is the string used to prompt the user for the integers
+Make a driver class (named appropriately: PX_LastName_FirstName_MoveDriver.java) that tests your Move class. The driver should have a main method that creates a Scanner for reading System.in and then keeps doing the following:
+
+Prompt the user for two integers using the static method you made in your Move class, passing the scanner you created and a prompt ("Enter two integers: ")
+Print the chosen numbers using the toString method
+Prompt the user to type q to quit or anything else to continue
+If they enter q, then the program quits
+otherwise the program continues the loop
+Example output
+Enter two integers: 3 5
+You chose (3, 5)
+Type q to quit or anything else to continue: sdfg
+Enter two integers: 3
+Invalid format. Please enter exactly two integers separated by a space.
+Enter two integers: 5 6 7
+Invalid format. Please enter exactly two integers separated by a space.
+Enter two integers: 23 456
+You chose (23, 456)
+Type q to quit or anything else to continue: 
+Enter two integers: two five
+Invalid format. Please enter exactly two integers separated by a space.
+Enter two integers: 23f 1
+Invalid format. Please enter exactly two integers separated by a space.
+Enter two integers: 23 4 more
+Invalid format. Please enter exactly two integers separated by a space.
+Enter two integers: 
+Invalid format. Please enter exactly two integers separated by a space.
+Enter two integers: one
+Invalid format. Please enter exactly two integers separated by a space.
+Enter two integers: 12
+Invalid format. Please enter exactly two integers separated by a space.
+Enter two integers: 
+Invalid format. Please enter exactly two integers separated by a space.
+Enter two integers: 123 87645
+You chose (123, 87645)
+Type q to quit or anything else to continue: q
+Test complete.
+
+Lab 10.7 StringCraft:
+Objective:
+The objective of this game is to create the highest scoring string possible using legal moves on a given input
+string of uppercase letters. But be careful with your moves. Moves cost you points.
+Legal Moves:
+Characters can be moved by swapping the positions of two characters in the string. For example, in the string
+"EXAMPLE", the last E could be swapped with the X, producing the string "EEAMPLX", which would change the
+score from 7 to 8. Moves that lower the score are not allowed.
+points - cost = score
+E X A M P L E
+1 1 1 1 1 1 1 7 - 0 = 7
+E E A M P L X
+1 3 1 1 1 1 1 9 - 1 = 8
+Point Cost:
+Each move costs 1 point.
+Game Over:
+The game is over when no more legal moves are possible.
+Scoring:
+● Each letter has a base value of 1
+● Each consecutive matching letter is worth 2 more than the point value of the letter before it.
+● Each letter that is part of a run is worth 1 more than the previous letter in the run.
+○ A run is a set of letters that are each exactly 1 letter apart in the alphabet and are in alphabetical
+order, such as DEFGHIJ.
+○ For the purpose of determining a run, the letter A is considered to follow Z. So another possible
+run would be XYZABC.
+Problem
+Write a program that does the following:
+Prompt the user for a string length
+Generates a random string of that length made up of only uppercase letters.
+Prints out the string followed by the score for that string.
+If there are valid moves, ask the user to enter two numbers separated by a space to indicate the indexes
+of two characters to swap, otherwise print the final score and say game over.
+If the move is legal, the program should print out the resulting string and the new score, otherwise it
+should print a message saying the move was illegal and prompt the user again.
+Keeps repeating steps 4 and 5 until there are no more moves at which point it prints the final score and
+announces the game is over.
+
+Lesson 11 homework assignments:
+Lab 11.1 BackToSchool:
+The HighSchool application described in the lesson has two classes: the Person superclass and the Student subclass. In this lab you will create two new classes, Teacher and CollegeStudent, using inheritance. A Teacher will be like Person but will have additional properties such as salary (the amount the teacher earns) and subject (e.g. "Computer Science", "Chemistry", "English", and "Other"). The CollegeStudent class will extend the Student class by adding a year (current level in college) and major (e.g. "Electrical Engineering", "Communications", and "Undeclared").
+
+The inheritance hierarchy follows.
+
+Here is the Person base class from the lesson to be used as a starting point for the Teacher class:
+
+public class Person{
+    private String myName ; // name of the person
+    private int myAge; // person's age
+    private String myGender; // "M" for male, "F" for female, "NB" for non-binary
+    // constructor
+    public Person(String name, int age, String gender){
+        myName = name;
+        myAge = age;
+        myGender = gender;
+    }
+    public String getName(){
+        return myName;
+    }
+    public int getAge(){
+        return myAge;
+    }
+    public String getGender(){
+        return myGender;
+    }
+    public void setName(String name){
+        myName = name;
+    }
+    public void setAge(int age){
+        myAge = age;
+    }
+    public void setGender(String gender){
+        myGender = gender;
+    }
+    public String toString(){
+        return myName + ", age: " + myAge + ", gender: " +
+        myGender;
+    }
+}
+The Student class is derived from the Person class and used as a starting point for the CollegeStudent class:
+
+public class Student extends Person{
+    private String myIdNum; // Student Id Number
+    private double myGPA; // grade point average
+    // constructor
+    public Student(String name, int age, String gender,
+        String idNum, double gpa){
+        // use the super class' constructor
+        super(name, age, gender);
+        // initialize what's new to Student
+        myIdNum = idNum;
+        myGPA = gpa;
+    }
+    public String getIdNum(){
+        return myIdNum;
+    }
+    public double getGPA(){
+        return myGPA;
+    }
+    public void setIdNum(String idNum){
+        myIdNum = idNum;
+    }
+    public void setGPA(double gpa){
+        myGPA = gpa;
+    }
+    // overrides the toString method in the parent class
+    public String toString(){
+        return super.toString() + ", student id: " + myIdNum + ", gpa: " + myGPA;
+    }
+}
+Assignment
+You will be provided with two source files as shown above: Person.java for the Person class, Student.java for the Student class. These files should be used throughout this assignment.
+
+Write a Teacher class that extends the parent class Person.
+
+Add instance variables to the class for subject (e.g. “Computer Science”, "Chemistry", "English", "Other”) and salary (the teacher’s annual salary). Subject should be of type String and salary of type double. Choose appropriate names for the instance variables.
+
+Write a constructor for the Teacher class. The constructor will use five parameters to initialize myName, myAge, myGender, subject, and salary. Use the super reference to use the constructor in the Person superclass to initialize the inherited values.
+
+Write “setter” and “getter” methods for all of the instance variables. For the Teacher class they would be: getSubject, getSalary, setSubject, and setSalary.
+
+Write the toString() method for the Teacher class. Use a super reference to do the things already done by the superclass.
+
+Write a CollegeStudent subclass that extends the Student class.
+
+Add instance variables to the class for major (e.g. “Electrical Engineering”, “Communications”, “Undeclared”) and year (e.g. FROSH = 1, SOPH = 2, ...). Major should be of type String and year of type int. Choose appropriate names for the instance variables.
+
+Write a constructor for the CollegeStudent class. The constructor will use seven parameters to initialize myName, myAge, myGender, myIdNum, myGPA, year, and major. Use the super reference to use the constructor in the Student superclass to initialize the inherited values.
+
+Write “setter” and “getter” methods for all of the instance variables. For the CollegeStudent class they would be: getYear, getMajor, setYear, and setMajor.
+
+Write the toString() method for the CollegeStudent class. Use a super reference to do the things already done by the superclass.
+
+Write a testing class with a main() that constructs all of the classes (Person, Student, Teacher, and CollegeStudent) and calls their toString() method. Sample usage would be:
+
+Person bob =  **new**  Person("Coach Bob", 27, "M");  
+System.out.println(bob);
+
+Student lynne =  **new**  Student("Lynne Brooke", 16, "NB", "HS95129", 3.5);  
+System.out.println(lynne);
+
+Teacher mrJava =  **new**  Teacher("Duke Java", 34, "M", "Computer Science", 50000);  
+System.out.println(mrJava);
+
+CollegeStudent ima =  **new**  CollegeStudent("Ima Frosh", 18, "F", "UCB123",  
+4.0, 1, "English");  
+System.out.println(ima);
+A sample run of the program would give:
+
+Coach Bob, age: 27, gender: M  
+Lynne Brooke, age: 16, gender: NB, student id: HS95129, gpa: 3.5  
+Duke Java, age: 34, gender: M, subject: Computer Science, salary: 50000.0  
+Ima Frosh, age: 18, gender: F, student id: UCB123, gpa: 4.0, year: 1, major: English
+
+Lab 11.3 MyDrawingTool:
+In this lab you will create a subclass of DrawingTool that has more features and capabilities. You will change the way some of DrawingTool's methods work by overriding methods and you will add new methods to expand the tools DrawingTool offers. Finally, you will make the new DrawingTool interactive by implementing the MouseListener interface along with other interfaces.
+Instructions:
+Put aside whatever you created during class and start again from scratch. Your brain needs this to make stronger connections.
+Create a new class that extends DrawingTool. Name this class with your name and period. Ex: P1_Wang_Michael_MyDrawingTool
+Add at least two constructors to your MyDrawingTool. Remember that the first line of code in a subclass constructor must be a call to the parent's constructor using super(...)
+Add at least two new attributes to your MyDrawingTool that are different from what we did during class. (You can keep what we did during class, but you need your own ideas beyond what we did.)
+Add at least two new methods to your MyDrawingTool that are different from what we did during class. (You can keep what we did during class, but you need your own ideas beyond what we did. Perhaps, you could add a new kind of shape?)
+Override at least two methods from DrawingTool and change the default behavior. Include an @Override annotation above these methods to tell Java you intend to override an inherited method. (You can use what we did in class if you'd like.)
+Add at least two kinds of interesting/fun mouse interactivity that are different from what we did during class. This can be left or right button clicks that do something fun, mouse drags that do something fun, or keyboard presses combined with mouse drags that do something fun.
+
+Examples:
+If you click-and-drag, circles of random radii and colors are created at the mouse location
+Pressing the '+' and '-' keys changes the pen size so that when you click and drag you can draw pictures on the screen with the current pen size.
+Pressing the 'r' key enters "rectangle mode" so that when you click, drag, and release, a rectangle is created whose corners are located where you started and ended the mouse drag.
+See Mouse and Keyboard Events, below.
+
+Finally, write a Driver class that does two things:
+Demonstrates the overridden methods and the new methods you created
+Prints out directions in the console window so the user knows how to interact with your program using mouse/keyboard
+Name your Driver and MyDrawingTool classes according to your period and name, then submit them below.
+
+Basic Mouse Events:
+In order to handle mouse events, you need to tell the SketchPad to listen to the events and have it automatically pass those events to you when they happen.
+
+Here's how to do this for basic mouse events:
+Implement the MouseListener interface by adding the implements keyword in your MyDrawingTool class definition:
+
+public class MyDrawingTool extends DrawingTool implements MouseListener 
+See the MouseListener API. You will have to import MouseListener and see what methods it requires you to have in your class.
+
+Add the required interface methods to your class. They should all be declared public.
+
+In each of your MyDrawingTool constructors, add the following code to tell your SketchPad to listen for mouse events and pass the info on to this class, where we handle the mouse methods. (this refers to yourself as an object)
+
+getPadPanel().addMouseListener(this);
+In your mouse methods, you will need to find out where the user clicked and which button was pressed. Notice that each MouseListener method receives a MouseEvent object when it is invoked. Look at the MouseEvent API because it has everything you need. Read the method details to see which methods tell you which button was pressed and where it was pressed.
+
+When you get the (x, y) location from the MouseEvent parameter it gives you the mouse coordinates based on the upper left corner of the drawing canvas. You will need to convert the mouse (x, y) into gpdraw's coordinates. To convert coordinates, you'll need to know the SketchPad's width and height:
+
+getPadPanel().getWidth();  // width of canvas
+getPadPanel().getHeight(); // height of canvas
+Write your own conversion functions. If you get absolutely stuck and can't figure it out yourself after trying, here is a solution. It's just basic math that you need to draw out on paper to understand.
+
+Mouse Motion and Keyboard Events
+The MouseEvent interface is for one-time events. If you want to process continuous events like mouse movement or dragging, you need to implement the MouseMotionListener interface. You can implement multiple interfaces by separating them with a comma:
+
+public class MyDrawingTool extends DrawingTool implements MouseListener, MouseMotionListener  
+To use MouseMotionListener, you also need to register the SketchPad with a different listener:
+
+getPadPanel().addMouseMotionListener(this);
+    
+Finally, to handle keyboard events, implement the KeyListener interface and register your SketchPad as an event listener:
+
+getPadPanel().addKeyListener(this);
+    
+You will also need to request focus in the constructor so your padPanel will receive the key events:
+
+getPadPanel().requestFocusInWindow();
+    
+If you want your program to have different "modes" based on keypresses or if you want to have key-combinations with mouse events, one possible way is to keep track of your own variables and update them in the keyPressed and keyReleased methods. That way, the mouse listener methods can access whatever keyboard variables you care about.
+
+Lesson 12 homework assignments:
+Lab 12.3 LoanTable:
+When buying a home, a very important financial consideration that many buyers face is obtaining a qualifying loan from a financial institution. Interest rates can be fixed or variable and there are service charges called ‘points’ for taking out a loan. One ‘point’ is equal to 1% of the loan amount (called principal) borrowed. Taking out a loan of $150,000 with a 2 point charge will amount to a cost of $3,000 for obtaining the loan - before you ever make your first mortgage payment! Some banks and financial lending institutions offer lower interest rates but require higher points, and vice versa. Usually, the more points you pay, the lower the interest rate. It is helpful to know what the monthly mortgage payment will be for a given loan amount with different interest rates.
+
+The monthly payment on a loan is determined using three inputs:
+
+The amount of the loan (principal).
+
+The number of years for the loan to be paid off.
+
+The annual interest rate of the loan.
+
+The formula for determining payments is: a = (p * k * c) / (c - 1)
+p = principal, amount borrowed
+k = monthly interest rate (annual rate/12.0)
+n = number of monthly payments (years * 12)
+c = (1 + k)n
+a = monthly payment (interest and principal paid)
+
+Assignment
+Write a program that prompts the user for the following information:
+
+The amount of the loan
+The length of the loan in years
+A low interest rate in %
+A high interest rate in %
+Print out the monthly payment for the different interest rates from low to high, incremented by 0.25%.
+
+Run the following three samples:
+
+Mortgage problem
+
+Principal = $100000.00  
+Time = 30 years  
+Low rate = 11%  
+High rate = 12%
+Annual Interest Rate	Monthly Payment
+11.00	952.32
+11.25	971.26
+11.50	990.29
+11.75	1009.41
+12.00	1028.61
+Your program should make use of the built-in pow method located in the Math class.
+
+Your program must make use of separate methods for the data input section and the printing section of the assignment.
+
+Instructions:
+Write the program. Confirm that it works to the screen using the above sample output.
+
+Lesson 13 homework assignments:
+Lab 13.2 Average:
+Download numbers.txt (on the website). The text file contains a large amount of integers. The integers range in value from 0 to 100. The text file has been created with one value on each line.
+The number of integers in the file is unknown. You must continue reading the file until there are no more integers to read. Your program should work with any number of integers, however the sum of the integers will not be larger than the maximum int value.
+Your program must find the average of the list of numbers.
+Assignment:
+Your program should print out the average of the data in numbers.txt to the console window. Format the average to print to the console rounded to 2 decimal places (Hint: you can use printf or use a calculation to find the rounded value).
+Your program should also write the average of the numbers to a new text file called "output.txt". You don't need to format the average written to the file to 2 decimal places (but it's a fun exercise to try!).
+Turn in your source code below. You don't need to turn in the output file.
+
+Lab 13.3 Compress:
+When text files are saved to disk there are various methods for compressing files to take up less space. One way of conserving disk space is to count the number of blanks at the beginning of a line and save the count as an integer. Although too simple for practical use, this method is a fun way to compress a Java source code file containing many lines of leading blank spaces (tab characters) due to indented code.
+
+Assignment:
+You are provided with a text file, LeetSpeak.java, on the website containing lines of text which may or may not have tabs in front of the lines.
+Rename this file with your period and name. For example, P1_Wang_Michael_LeetSpeak.java
+The number of lines in the file is unknown.
+Your assignment is to write a program that compresses and decompresses the file (any Java file, really) as outlined below.
+Create a new class named PX_Lastname_Firstname_Compression.java in which to do your work. All methods in this class will be static in order to work as independent methods that do not rely on object attributes.
+
+File Compression:
+Add a method compress(String filename) to your class. This method should read in the lines of text from the named input file, count the number of tab characters at the beginning of each line, and create a new text file that writes the number of tab characters at the beginning of each line followed by a single space character and then the line of text without leading tabs.
+Name your output file the same as the input file, but ending in .txt instead of .java. For example, if the input file is "P1_Wang_Michael_LeetSpeak.java" then your output file would be named P1_Wang_Michael_LeetSpeak.txt. You will need to do basic String processing on the filename parameter to get this working.
+Here is an example of how the data would be changed:
+Before compressing, shown below. 
+Filename: P1_Wang_Michael_LeetSpeak.java
+import java.util.Scanner;
+
+public class P1_Wang_Michael_LeetSpeak {
+
+    public static void main(String[] args) {
+
+        Scanner in = new Scanner(System.in);
+
+        System.out.print("Please enter a sentence in English > ");
+        String input = in.nextLine();
+        String output = "";
+        char nextChar = 0;
+
+        // go through input and replace common characters
+
+        for (int i = 0; i < input.length(); i++) {
+
+            nextChar = input.charAt(i);
+
+            switch (nextChar) {
+
+                case 'o': case 'O': output += '0'; break;
+                case 'i': case 'I': output += '1'; break;
+                case 'z': case 'Z': output += '2'; break;
+                case 'e': case 'E': output += '3'; break;
+                case 'a': case 'A': output += '4'; break;
+                case 's': case 'S': output += '5'; break;
+                case 'g': case 'G': output += '6'; break;
+                case 't': case 'T': output += '7'; break;
+                case 'b': case 'B': output += '8'; break;
+                case 'p': case 'P': output += '9'; break;
+                default: output += nextChar;
+            }
+        }
+
+        System.out.println("\n\nThe 1337 way to write your sentence is \"" +
+                            output + "\"\n\n");
+    }   
+}
+After compressing, shown below:
+Filename: P1_Wang_Michael_LeetSpeak.txt
+
+0 import java.util.Scanner;
+0 
+0 public class LeetSpeak {
+1 
+1 public static void main(String[] args) {
+2 
+2 Scanner in = new Scanner(System.in);
+2 
+2 System.out.print("Please enter a sentence in English > ");
+2 String input = in.nextLine();
+2 String output = "";
+2 char nextChar = 0;
+2 
+2 // go through input and replace common characters
+2 
+2 for (int i = 0; i < input.length(); i++) {
+3 
+3 nextChar = input.charAt(i);
+3 
+3 switch (nextChar) {
+4 
+4 case 'o': case 'O': output += '0'; break;
+4 case 'i': case 'I': output += '1'; break;
+4 case 'z': case 'Z': output += '2'; break;
+4 case 'e': case 'E': output += '3'; break;
+4 case 'a': case 'A': output += '4'; break;
+4 case 's': case 'S': output += '5'; break;
+4 case 'g': case 'G': output += '6'; break;
+4 case 't': case 'T': output += '7'; break;
+4 case 'b': case 'B': output += '8'; break;
+4 case 'p': case 'P': output += '9'; break;
+4 default: output += nextChar;
+3 }
+2 }
+2 
+2 System.out.println("\n\nThe 1337 way to write your sentence is \"" +
+7 output + "\"\n\n");
+1 } 
+0 }
+File Decompression
+Next, write a decompression method decompress(String filename) that decompresses files compressed with your compress method.
+Your method should read the file specified by filename (which should be a .txt file that you compressed) and restore the file by decompressing it and saving it as .java instead of .txt.
+For example, if you decompress P1_Wang_Michael_LeetSpeak.txt it should turn into P1_Wang_Michael_LeetSpeak.java and match the original file you compressed.
+Hints and Heads Up:
+Test your program and make sure it does not add extra space at the end of each line.
+Test your program and make sure it does not add an extra line at the end of the file.
+When decompressing, consider taking in each line using nextLine and then processing that line using a second Scanner or a StringTokenizer. StringTokenizer works like a Scanner but it operates on Strings.
+You will need a way to preserve and restore tab characters within each line.
+You may need a way to convert a String into an integer. To do this, look at the API for the Integer class.
+When debugging your program, consider printing output to the screen (as usual) instead of printing to an output file. That way, you can see what's happening.
+Consider printing a different character in place of tab characters so you can see what's happening.
+Carefully read any run-time errors you get. They tell you exactly why your program crashed and on what line.
+
+Lesson 15 homework assignments:
+Lab 15.1 IrregularPolygon:
+Polygons are closed two-dimensional shapes bounded by line segments. The segments meet in pairs at corners called vertices. A polygon is irregular if not all its sides are equal in length. The figure below shows examples of irregular polygons:
+
+Assignment:
+Implement a class IrregularPolygon that contains an array list of Point2D.Double objects.
+The Point2D.Double class defines a point specified in double precision representing a location in (x, y) coordinate space. For example, Point2D.Double(2.5, 3.1) constructs and initializes a point at coordinates (2.5, 3.1).
+Use the following declarations as a starting point for your lab work.
+import  java.awt.geom.*; // for Point2D.Double  
+import  java.util.ArrayList; // for ArrayList  
+import  gpdraw.*; // for DrawingTool
+
+public class  IrregularPolygon{  
+private  ArrayList <Point2D.Double> myPolygon;  
+
+// constructors  
+public  IrregularPolygon() { }  
+
+// public methods  
+public void  add(Point2D.Double aPoint) { }
+
+public void  draw() { }
+
+public double  perimeter() { }
+
+public double  area() { }  
+}
+The program should use the Drawing Tool to draw the polygon by joining adjacent points with a line segment, and then closing it up by joining the end and start points.
+
+Write methods that compute the perimeter and the area of a polygon. To compute the perimeter, compute the distance between adjacent points, and total up the distances. The area of a polygon with corners is the absolute value of: (x0*y1 + x1*y2 + ... + xn-1 * y0 - y0*x1 - y1*x2 - ... - yn-1 * x0)/2
+Note: add n products, then subtract n products, then divide by 2. The result will be negative or positive depending on the order in which the products are taken, i.e., which products are subtracted and which are added. Here is an explanation and proof of the formula, if you want to know more.
+
+As a test case, the parallelogram formed by the following coordinates has a perimeter of 174.1 units and an area of 1700 square units: (20, 10), (70, 20), (50, 50), (0, 40). For more cases to practice with, see these slides.
+For the normal lab, assume that the points are entered in either clockwise or counterclockwise order.
+
+Lab 15.2 Permutations:
+Assignment:
+Write a program that produces random permutations of the numbers 1 to 10. A “Permutation” is a mathematical name for an arrangement. For example, there are six permutations of the numbers 1,2,3: 123, 132, 231, 213, 312, and 321.
+To generate a random permutation, you need to fill an ArrayList with the numbers 1 to 10 so that no two entries of the array have the same contents. You could do it by brute force, by calling Random.nextInt() until it produces a value that is not yet in the array. Instead, you should implement a smarter method. Make a second ArrayList and fill it with the numbers 1 to 10. Then pick one of those at random, remove it, and append it to the permutation ArrayList. Repeat ten times.
+Implement a class with the following method:
+// Returns an ArrayList of Integers that are a permutation of the numbers 1-10  
+ArrayList<Integer> nextPermutation()
+
+Lab 15.3 Wordle Solver:
+Your goal is to write a program that solves Wordle puzzles. The game will start with an ArrayList of all possible words and as the user plays the game, the list of possible words will reduce to a single word, which is the Wordle solution. To meet the basic lab requirements, your solver needs to be a command-line program that solves Wordle puzzles containing no duplicate letters. In other words, your program must work for solutions that don't have two or more of the same letter. If you would like to your program to solve all valid Wordle words, complete the Gold version (see Gold Version section below).
+Program output will be printed to the terminal window and user input will be collected via keyboard input.
+If the user enters a guess or colors containing anything other than 5 characters, print an error message and make them repeatedly try again.
+To get an ArrayList of Wordle words, download basic_wordle_words.txt for the Basic Version (no duplicate letters). Then read the file using a Scanner and store each token into an ArrayList.
+You will write two classes, a Wordle class that handles Wordle logic and a WordleDriver class that has a main() method to play the game.
+
+Lesson 17 homework assignments:
+Lab 17.1 BubbleSort:
+Create two bubble sort methods
+Add a public static void method named bubbleSort1 that takes in an array of ints and sorts the list into descending order by bubbling smallest elements to the right using i and i+1 as pairs.
+
+Test your method by creating several test arrays in the main method and then passing them into your bubble sort function. In order to verify that you are "bubbling" the right elements in the right direction, modify your method to print the array after each completion of the outer loop. This is how the autograder will know that your code has the correct intermediate steps and it's also helpful for you to see what's happening. Remember that you can print an array using the Arrays helper class which has to toString() method.
+
+Add this println statement at the end of each outer loop:
+
+for (int outer ...) {
+    for (int inner ...) {
+        ...
+    }
+    // Print at end of each outer loop
+    System.out.println(Arrays.toString(myArray));
+}
+Here is an example of output with the printing after each iteration of the outer loop:
+
+Starting array: [5, 7, 2, 4, 3, 9]   (printed in main method)
+[7, 5, 4, 3, 9, 2]                (printed in bubbleSort method)
+[7, 5, 4, 9, 3, 2]                (printed in bubbleSort method)
+[7, 5, 9, 4, 3, 2]                (printed in bubbleSort method)
+[7, 9, 5, 4, 3, 2]                (printed in bubbleSort method)
+[9, 7, 5, 4, 3, 2]                (printed in bubbleSort method)
+Add a public static void method named bubbleSort2 that takes an array of Strings and sorts the list into ascending order by bubbling smallest elements to the left using i and i-1 as pairs. Print the array after each completion of the outer loop in the same way as you did for bubbleSort1.
+
+Remember that to compare Strings, you must use the compareTo() function to determine which String is "smaller."
+
+Lab 17.2 SelectionSort:
+SelectionSort class:
+Create a SelectionSort class in Eclipse. Put it in the same project as your BubbleSort.
+
+Add a public static void function named selectionSort1 that takes in an array of ints and uses Selection Sort to sort the list into ascending order by swapping largest elements to the right.
+
+Test your method by creating several test arrays in the main method and then passing them into your bubble sort function. In order to verify that you are "bubbling" the right elements in the right direction, modify your method to print the array after each completion of the outer loop. This is how the autograder will know that your code has the correct intermediate steps and it's also helpful for you to see what's happening. Remember that you can print an array using the Arrays helper class which has to toString() method.
+
+Add a println statement at the end of each outer loop, like this:
+
+for (int outer ...) {
+    for (int inner ...) {
+        ...
+    }
+    swap(...)
+
+    // Print at end of each outer loop
+    System.out.println(Arrays.toString(myArray));
+}
+Here is an example of output with the printing after each iteration of the outer loop:
+
+Starting array: [9, 5, 1, 3, 7, 4]     (printed in main method)
+[4, 5, 1, 3, 7, 9]                  (printed in selection sort)
+[4, 5, 1, 3, 7, 9]                  (printed in selection sort)
+[4, 3, 1, 5, 7, 9]                  (printed in selection sort)
+[1, 3, 4, 5, 7, 9]                  (printed in selection sort)
+[1, 3, 4, 5, 7, 9]                  (printed in selection sort)
+Add a public static void function named selectionSort2 that takes an array of Strings and sorts the list into descending order by swapping largest elements to the left. Whether your inner loop scans the unsorted portion of the list from left to right or right to left is up to you.
+
+Remember that to compare Strings, you must use the compareTo() function to determine which String is "smaller."
+
+Test your method thoroughly and include a println statement at the end of each outer loop.
+
+Upgrade Spider Solitaire:
+Let's add your final Spider Solitaire project to Eclipse.
+
+In Eclipse, choose (File → New → Java Project) from the menu.
+
+Uncheck the box for "Use default location" and then click the Browse button. Navigate to the folder where you have your Final Spider Solitaire project and select that folder as the project folder.
+
+Click the Finish button. Now you can edit your Spider Solitaire code in BlueJ and Eclipse since both projects point to the same code.
+
+Add a sort() method to the Deck class. In the sort() method, implement a selection sort algorithm that puts the deck into ascending order by swapping largest Cards to the right. Since a Deck is just an ArrayList of Card objects, this comes down to applying selection sort to an Arraylist of Cards. You don't need a parameter for your method because you are sorting your Deck's ArrayList attribute.
+
+As a reminder: In order to sort a list of Card objects, the Card class itself must implement the Comparable interface, which means two things:
+
+The Card class header specifies: class Card implements Comparable<Card>
+The Card class overrides the compareTo(Card other) method to compare Cards the way it wants
+
+
+5. After writing the sort function in Deck, go to your DeckTester class and verify that your sorting algorithm works by making a Deck of Cards, shuffling it, printing it, sorting it, then printing it again.
+
+Transfer your sort() function:
+For the purpose of grading, copy your Deck's sorting method to your SelectionSort class and modify the method signature as shown below so that it accepts an ArrayList of Cards instead of relying on your Deck's attribute.
+
+public static void selectionSort(ArrayList<Card> arr) {
+    // your code here
+}
+Test your method by making an ArrayList of Cards in the SelectionSort main method and then sorting the list using your new selection sort method.
+
+Note that you will need to copy the Card class into your selection sort project. Do this by dragging Card.java from your computer onto your Selection Sort project. When Eclipse gives you a choice of Copy Files vs Link To Files, choose Copy. This will make a copy of your Card class and put the copy in your SelectionSort project. Otherwise, Link To Files would leave Card.java in the original folder and only make a shortcut to it in your SelectionSort project.
+
+Finally, please comment out any code you have inside your main() method because the autograder uses its own main method and it's possible that you call custom Card or Deck methods the autograder will not know about. Do NOT submit your Card class or declare your Card class in the file you submit as that will also create compiler errors. Your sorting method will be tested with a Card class provided by the autograder.
+Lab 17.3 InsertionSort:
+insertionSort1 method
+Add a public static void function named insertionSort1 that takes in an array of ints and sorts the list into ascending order by inserting items into their proper place on the left. This is the same way that Lesson 17 Page D explains InsertionSort.
+Test your method by creating several test arrays in the main method and then passing them into your insertion sort function. In order to verify that you are inserting the right elements in the right direction (and to pass the autograder) you should print the array after each completion of the outer loop.
+For example, if the starting array was [9, 5, 1, 3, 7, 4], then your method should print:
+[5, 9, 1, 3, 7, 4]
+[1, 5, 9, 3, 7, 4]
+[1, 3, 5, 9, 7, 4]
+[1, 3, 5, 7, 9, 4]
+[1, 3, 4, 5, 7, 9]
+insertionSort2 method
+Add a public static void function named insertionSort2 that takes an array of Strings and sorts the list into descending order by inserting items into their proper place on the right. This means your outer loop should run backward and your inner loop should run forward. Print the list at the end of each outer loop iteration.
+Remember that to compare Strings, you must use the compareTo() function to determine which String is larger or smaller.
+Test your method thoroughly.
+YelpRating
+Both the AP Exam and our APCS class will have you write code on paper. Practice this now by writing the following YelpRating class on paper. Afterward, you will be able to check your work by 'autogenerating' the same thing in Eclipse.
+Write a YelpRating class on paper with these properties:
+A YelpRating implements the Comparable interface
+A YelpRating has the following instance variables:
+String subject stores what the review is for (Ex: "airpods," "Chipotle," etc.)
+String review stores a written review for this rating
+String userName stores the name of the reviewer
+double rating stores a rating value between 0 and 5
+A YelpRating is created by passing in all three attributes to a constructor
+A YelpRating object compares itself to other YelpRating objects by comparing their ratings
+YelpRating in Eclipse:
+Now let's re-create the YelpRating class and let Eclipse do some of the work for us.
+Make a new YelpRating class in Eclipse by choosing new Class from the menu.
+For the class name, enter YelpRating
+Next to the Interfaces section, there's an Add button. Click it to add an interface declaration to the class.
+Then type in Comparable and choose the Comparable interface from the list.
+After pressing OK, you should see this in the interfaces section:
+Replace the <T>, which means type, with <YelpRating> so that we only compare YelpRatings with other YelpRatings.
+Finally, click the Finish button.
+Add these instance variables:
+private String subject (what this review is for)
+private String review (a written review summary)
+private double rating (a rating between 0 and 5)
+private String userName (name of reviewer)
+Let Eclipse autogenerate a constructor that accepts all our instance variables:
+From the menu, select Source → Generate Constructors using Fields.
+Check all the attribute boxes and set the insertion point as After 'userName'.
+Let Eclipse autogenerate getter and setter methods for the instance variables:
+From the menu, select Source → Generate Getters and Setters.
+Check all the boxes and set the insertion point to be after the constructor.
+In order for YelpRatings to be comparable, you need to complete the compareTo method.
+Complete the compareTo method so that it compares YelpRatings by their rating.
+The compareTo method requires you to return an integer that represents how much larger the current object is when compared to the parameter object. Normally you would just return the difference in values between the two objects. However, that won't work in this case since the ratings are doubles. For example, a rating of 5.5 compared to 5.6 should return a negative value to indicate that 5.5 is less than 5.6. You can't just typecast the difference and return it because (int)(5.5 - 5.6) would return 0 which would imply the ratings are the same even though they aren't. So, you'll need to think of a different strategy.
+In order for YelpRatings to be displayed on the screen we need to override Object's toString() method. In Eclipse, make space for a new method and then type toString and hit Ctrl + Space and hit Enter. Eclipse automatically inserts a toString method stub for you.
+Update the toString method so that it returns a String in the following format (make sure you use the correct spacing - there is a tab between the labels and the values which is why they line up):
+Subject:\tsubject_text\n
+Review:\treview_text\n
+Rating:\trating\n
+User:\tuserName\n
+Note: You shouldn't do any printing in toString(). The way toString works is you build up a String and then return it. Your toString() method contains the String that will ultimately be printed by some other code but it doesn't do the printing itself.
+For example, if we created this YelpRating:
+YelpRating y = new YelpRating("Pieology", "awesome pizza", 5, "Eric F"); then System.out.println(y) would display:
+Subject:    Pieology
+Review:     awesome pizza
+Rating:     5.0
+User:       Eric F
+Note: If tab does not make them line up perfectly, don't worry about it, just make sure you have exactly one tab between labels and values. Don't add extra spaces to try to make it look right.
+
+insertionSort3 method:
+Go back to your InsertionSort class and create a public static void insertionSort3 function that takes in an ArrayList of YelpRating objects and sorts the list into descending order by inserting items into their proper place on the left. This means your outer loop will run from left to right and your inner loop will run backward.
+Print the list after each iteration of the outer loop
+In the testing section of your driver, create some YelpRating objects, add them to an ArrayList, print the list, sort it, then print the list again. The ratings should be displayed in sorted order.
+
+Lab 17.4 QuadSort:
+Instructions:
+Download Sorts.java and SortsStep.java
+Rename Sorts.java with your period and name. Ex: P3_Wang_Michael_Sorts.java
+Open SortStep.java and change lines 15 and 23 to match the name you chose in the previous step.
+Inside your Sorts class, write code for the 3 quadratic sorting algorithms.
+Instead of copying previous sorting code you wrote earlier, challenge yourself to rewrite each sorting algorithm from scratch. If you really know these algorithms, it won't take long. Leave the merge and mergesort methods blank for now. They will be studied in Lesson A18.
+Add the appropriate lines of code to count the number of steps for each algorithm.
+Run each of the 3 quadratic sorting algorithms to find out how many steps they take to sort 100, 200, 400 and 800 integers.
+Record your results in a data table and corresponding graph. You may do this on paper and submit at the beginning of class or submit a digital version to the Schoology assignment.
+Show your results as a data table
+Show your results as a graph by plotting the number of integers sorted on the x-axis versus the number of steps required on the y-axis.
+
+Lesson 18 homework assignments:
+Lab 18.1 Merge:
+Assignment
+As explained in the student lesson, write a method to merge two sorted lists into one sorted list.
+
+Download RunMergeTemplate.java and MergeTemplate.java. Complete the starter methods provided in MergeTemplate.java.
+
+Instructions
+The merge algorithm is prone to logic errors. The most common error is dealing with cases when you have reached the end of one list or the other. You are to test these 6 different input scenarios or trials:
+Test Cases:
+Format: List A Quantity / Largest Value	  List B: Quantity / Largest Value
+Trial 1	20 / 100	40 / 100
+Trial 2	40 / 100	20 / 100
+Trial 3	20 / 100	40 / 50
+Trial 4	20 / 50	40 / 100
+Trial 5	40 / 50	20 / 100
+Trial 6	40 / 100	20 / 50
+
+Lab 18.2 Recursive MergeSort:
+Using your code template from Lesson 17 as a starting point, write a recursive mergeSort method as described in the student lesson. Pseudocode for the recursive mergeSort method is given below.
+// Recursively divides a list in half, over and over. When the
+// sublist has one or two values, stop subdividing.
+void mergeSort(ArrayList <Comparable> a, int first, int last) {
+     if (sublist has only one value) {
+                // do nothing
+     } else if (sublist has two values) {
+                // sort it if necessary
+     } else { // recursion, divide list into two halves
+                // Find midpoint of current sublist
+                // Call mergeSort and process left sublist
+                // Call mergeSort and process right sublist
+                // merge left and right sublists
+     }
+}
+Note that you will have to rewrite a new merge to fit the necessary calls of the new mergeSort method.
+For both mergeSort() and merge() you must work with the single ArrayList parameter that is passed in. (i.e. You may not modify the merge() method to accept more ArrayLists.) However, you are free to create a temporary list within the merge method.
+If you want an extra challenge, try writing the merge() method without using a temporary list. This is possible with ArrayLists.
+Instructions:
+Complete the merge and mergeSort methods within your code template from Lesson 17.
+Add the necessary code to count steps. Note that since mergeSort calls merge, you will need to include step counting there as well.
+Repeat steps 5 to 7 from Lab 17.4, including mergeSort in your graphs.
+
+Lesson 19 homework assignments:
+Lab 19.1 Store:
+Complete the Store class capable of doing each of the following:
+load the data file, file50.txt by default, as a collection of Item types
+sort the data, in increasing order of id number
+print the data, in order
+Put all of your classes into one file. Refer to Lab 5.2 Illusions if needed.
+The printed output should add a blank line after every 10 items for better readability. Include a line number in the output.
+
+Lab 19.2 Search:
+You will need to have completed Lab 19.1 Store to complete this assignment. Your task will be to add the binary search algorithms presented below to your Store class.
+Assignment:
+Complete both of the binary search methods, iterative and recursive.
+An example output is given below.
+Id # 15320 Inventory = 82
+Id # 196 Inventory = 60
+Id # 19967 Inventory = 45
+Id # 2 No such part in stock
+Id # 20000 No such part in stock
+Put all three files (Item, Store, Driver) in a single file as you did for Lab 19.1 and upload it below.
+
+Lab 19.3 CountWords:
+This lab assignment will count the occurrences of words in a text file. Here are some special cases that you must take into account:
+hyphenated words (i.e., sixty-three)	Count as one word
+hyphenated words with blank spaces on each side of hyphen (i.e., joyous - sparkling)	Count as two words
+apostrophed words (i.e., 'tis, or can't)	Count as one word
+upper and lower case (i.e., The and the)	Both count as occurrences of the word 'the'. Convert any capital letters to lower case before counting such words.
+You are encouraged to use a combination of all the programming tools you have learned so far, such as:
+Data Structures	Algorithms
+arrays
+String class
+ArrayList class
+A Custom class	sorting
+searches
+text file processing
+Assignment:
+A sample data file to analyze (lincoln.txt) is found on the website. Parse the file and print out the following statistical results:
+Total number of unique words used in the file. (Unique words disregards duplicates. For example, the list { "apple", "banana", "apple" } contains 3 total words, but only 2 unique words.)
+Total number of words in a file.
+The top 30 words which occur the most frequently, sorted in descending order by count.
+
+
+
+
+
+

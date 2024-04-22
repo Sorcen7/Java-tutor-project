@@ -1,0 +1,512 @@
+Lab 6.1 Taxes:
+public class TaxesDriver {
+    
+    public static void main(String[] args) {
+        // Creating an instance of Taxes class with initial hours worked and hourly rate
+        P4_Pan_Isaac_Taxes taxes = new P4_Pan_Isaac_Taxes(30.0, 16.35);
+        // Printing tax information for the initial values
+        taxes.printTaxes();
+        
+        System.out.println();
+        
+        // Modifying hours worked and hourly rate and printing updated tax information
+        taxes.setHoursWorked(taxes.getHoursWorked() * 2);
+        taxes.setHourlyPay(taxes.getHourlyPay() * 2);
+        taxes.setHourlyPay(-2); // Attempt to set a negative hourly pay rate, which should be ignored
+        taxes.printTaxes();
+        
+    }
+    
+}
+
+public class Taxes {
+    // Constants for tax rates
+    private static final double FEDERAL_TAX = 0.124;
+    private static final double FICA_TAX = 0.0775;
+    private static final double STATE_TAX = 0.093;
+    
+    // Instance variables
+    private double hours;
+    private double pay;
+    
+    /**
+     * Constructor for objects of class P4_Pan_Isaac_Taxes
+     */
+    public P4_Pan_Isaac_Taxes(double hoursWorked, double hourlyPay) {
+        // Initialize instance variables with provided parameters
+        hours = hoursWorked;
+        pay = hourlyPay;
+    }
+
+    // Getter and setter methods
+    
+    /**
+     * Gets the number of hours worked.
+     * @return The number of hours worked.
+     */
+    public double getHoursWorked() {
+        return hours;
+    }
+    
+    /**
+     * Sets the number of hours worked, ignoring negative values.
+     * @param hoursWorked The number of hours worked.
+     */
+    public void setHoursWorked(double hoursWorked) {
+        if(hoursWorked >= 0) {
+            hours = hoursWorked;
+        }
+    }
+    
+    /**
+     * Gets the hourly pay rate.
+     * @return The hourly pay rate.
+     */
+    public double getHourlyPay() {
+        return pay;
+    }
+    
+    /**
+     * Sets the hourly pay rate, ignoring negative values.
+     * @param hourlyPay The hourly pay rate.
+     */
+    public void setHourlyPay(double hourlyPay) {
+        if(hourlyPay >= 0) {
+            pay = hourlyPay;
+        }
+    }
+    
+    /**
+     * Calculates and prints tax information.
+     */
+    public void printTaxes() {
+        // Calculating gross pay
+        double grossPay = pay * hours;
+        // Printing hours worked and hourly rate
+        System.out.println("Hours worked: " + hours);
+        System.out.println("Hourly rate: " + pay);
+        System.out.println();
+        // Printing gross pay
+        System.out.println("Gross pay: " + grossPay);
+        System.out.println();
+        // Calculating and printing federal tax
+        double fedTax = FEDERAL_TAX * grossPay;
+        System.out.println("Federal Tax (" + FEDERAL_TAX*100 + "%): " + fedTax);
+        // Calculating and printing FICA tax
+        double ficaTax = FICA_TAX * grossPay;
+        System.out.println("FICA Tax (" + FICA_TAX*100 + "%): " + ficaTax);
+        // Calculating and printing state tax
+        double stateTax = STATE_TAX * grossPay;
+        System.out.println("State Tax (" + STATE_TAX*100 + "%): " + stateTax);
+        System.out.println();
+        // Calculating and printing net pay
+        double netPay = grossPay - fedTax - ficaTax - stateTax;
+        System.out.println("Net pay: " + netPay);
+    }
+}
+
+Lab 8.1 Checkmail:
+import java.util.Scanner;
+
+public class CheckMail {
+    public static void main(String[] args) {
+        // Create a Scanner object to get user input
+        Scanner in = new Scanner(System.in);
+        
+        // Prompt the user to enter the weight of the package in pounds
+        System.out.print("Please enter the weight in pounds: ");
+        
+        // Read the weight of the package from the user
+        double weight = in.nextDouble();
+        
+        // Prompt the user to enter the three dimensions of the package in inches
+        System.out.println("Please enter the three dimensions of the package in inches: ");
+        
+        // Read the dimensions of the package from the user
+        double num1 = in.nextDouble();
+        double num2 = in.nextDouble();
+        double num3 = in.nextDouble();
+        
+        // Determine the longest dimension of the package
+        double length = Math.max(num1, Math.max(num2, num3));
+        
+        // Calculate the girth using the other two dimensions
+        double girth = 2 * (num1 + num2 + num3 - length);
+        
+        // Check if the package is too heavy and/or too large
+        boolean tooHeavy = weight > 70;
+        boolean tooLarge = girth + length > 100;
+        
+        // Print the appropriate message based on the package size and weight
+        if(tooHeavy && tooLarge) {
+            System.out.println("Package is too large and too heavy.");
+        } else if(tooLarge) {
+            System.out.println("Package is too large.");
+        } else if(tooHeavy) {
+            System.out.println("Package is too heavy.");
+        } else {
+            System.out.println("Package is acceptable.");
+        }
+        
+        // Close the Scanner object to prevent resource leaks
+        in.close();
+    }
+}
+
+Lab 8.2 Happiness Detector:
+public boolean isHappy(int num, int a, int b) {
+    // Check if the number satisfies the general rule
+    boolean generalRule = num % a == 0 && num % b != 0;
+    
+    // Assume the number is happy based on the general rule
+    boolean happy = generalRule;
+    
+    // Adjust happiness based on specific conditions
+    if (num > 30 && num < 54) {
+        // If the number is in the range (31-53), it's considered happy
+        happy = true;
+    } else if (num < 16) {
+        // If the number is less than 16, invert the happiness
+        happy = !happy;
+    } else if (num >= 81 && num <= 99 && num % 2 == 1) {
+        // If the number is in the range (81-99) and is odd, it's considered happy
+        happy = true;
+    }
+    
+    // If the number is negative, it's not happy
+    if (num < 0) {
+        happy = false;
+    }
+    
+    // Return the final happiness status of the number
+    return happy;
+}
+
+Lab 9.1 Fibonacci:
+public static int fibonacci(int n) {
+    if(n < 0) {
+        return -1;
+    }
+    if(n == 0) {
+        return 0;
+    } 
+    if(n == 1) {
+        return 1;
+    }
+    return P4_Pan_Isaac_Fibonacci.fibonacci(n - 1) + P4_Pan_Isaac_Fibonacci.fibonacci(n - 2);
+}
+
+public static int recursiveMultiplication1(int num1, int num2) {
+    if(num1 == 0) {
+        return 0;
+    }
+    return recursiveMultiplication1(num1 - 1, num2) + num2;
+}
+
+public static int recursiveMultiplication2(int num1, int num2) {
+    if(num1 == 0) {
+        return 0;
+    }
+    int answer = recursiveMultiplication1(Math.abs(num1), num2);
+    if(num1 < 0) {
+        answer *= -1;
+    }
+    
+    return answer;
+    
+}
+
+Lab 9.2 KochCurve:
+public class KochCurve {
+    // Create a SketchPad and a DrawingTool for drawing
+    static SketchPad pad = new SketchPad(600, 600);
+    static DrawingTool pen = new DrawingTool(pad);
+    
+    /**
+     * Draws a Koch curve recursively.
+     * 
+     * @param level The number of levels of recursion.
+     * @param length The initial length of the Koch curve.
+     */
+    public void drawKochCurve(int level, double length) {
+        // Base case: If level is less than 1, move the pen by the specified length
+        if(level < 1) {
+            pen.move(length);
+        } else {
+            // Recursive case: Divide the curve into smaller segments and draw each segment
+            drawKochCurve(level - 1, length / 3.0);
+            pen.turnLeft(60);
+            drawKochCurve(level - 1, length / 3.0);
+            pen.turnRight(120);
+            drawKochCurve(level - 1, length / 3.0);
+            pen.turnLeft(60);
+            drawKochCurve(level - 1, length / 3.0);
+        }
+    }
+
+    /**
+     * Draws a Koch snowflake by drawing three Koch curves in a triangle.
+     * 
+     * @param level The number of levels of recursion for each Koch curve.
+     * @param length The initial length of each Koch curve.
+     */
+    public void drawKochSnowflake(int level, int length) {
+        // Draw three Koch curves in a triangle formation
+        for(int i = 0; i < 3; i++) {
+            drawKochCurve(level, length);
+            pen.turnRight(120);
+        }
+    }
+
+    /**
+     * Draws a Koch snowflake iteratively.
+     * 
+     * @param level The number of levels of recursion for each Koch curve.
+     * @param length The initial length of each Koch curve.
+     */
+    public void drawKochSnowflakeIteratively(int level, int length) {
+        // Calculate the new length for each iteration
+        double newLength = length / Math.pow(3, level);
+        // Calculate the total number of iterations for each side of the snowflake
+        double iterations = Math.pow(4, level);
+        // Draw three sides of the snowflake
+        for(int sides = 0; sides < 3; sides++) {
+            // Array to keep track of iteration counts for each segment
+            int[] arr = new int[level];
+            // Iterate through each segment of the snowflake
+            for(int i = 0; i < iterations; i++) {
+                pen.move(newLength);
+                int end = 1;
+                // Iterate through each level of recursion for the current segment
+                for(int j = 0; j < end; j++) {
+                    // Rotate the pen based on the current iteration count
+                    if(arr[j] % 2 == 0) {
+                        pen.turnLeft(60);
+                    } else if(arr[j] == 1) {
+                        pen.turnRight(120);
+                    } else {
+                        // If the current iteration count exceeds the level, add a new level
+                        if(j + 1 < level) {
+                            arr[j] = -1;
+                            end++;
+                        }
+                    }
+                    arr[j] += 1;
+                }
+            }
+            // Turn the pen to draw the next side of the snowflake
+            pen.turnRight(120);
+        }
+    }
+}
+
+Lab 10.1 Iterative Reverse and Palindrome:
+public class StringManipulator {
+    /**
+     * Returns the exact reversal of the characters in the input string.
+     * 
+     * @param str The input string.
+     * @return The reversed string.
+     */
+    public static String iterativeStringReverse(String str) {
+        // Initialize an empty string to store the reversed characters
+        String reversed = "";
+        // Iterate through the characters of the input string in reverse order
+        for(int i = str.length() - 1; i >= 0; i--) {
+            // Append each character to the reversed string
+            reversed = reversed + str.charAt(i);
+        }
+        // Return the reversed string
+        return reversed;
+    }
+
+    /**
+     * Checks if the input string is a palindrome.
+     * 
+     * @param str The input string.
+     * @return true if the string is a palindrome, false otherwise.
+     */
+    public static boolean iterativeIsPalindrome(String str) {
+        // Initialize a boolean variable to track if the string is a palindrome
+        boolean palindrome = true;
+        // Initialize an empty string to store alphanumeric characters from the input string
+        String alphanumeric = "";
+        // Extract alphanumeric characters from the input string and store them in 'alphanumeric'
+        for(int i = 0; i < str.length(); i++) {
+            if(Character.isLetterOrDigit(str.charAt(i))) {
+                alphanumeric += Character.toLowerCase(str.charAt(i));
+            }
+        }
+        // Check if 'alphanumeric' is a palindrome
+        for(int i = 0; i < alphanumeric.length() / 2; i++) {
+            if(alphanumeric.charAt(i) != alphanumeric.charAt(alphanumeric.length() - 1 - i)) {
+                // If characters don't match, set 'palindrome' to false and break the loop
+                palindrome = false;
+                break;
+            }
+        }
+        // Return the final palindrome status
+        return palindrome;
+    }
+}
+
+Lab 15.3 Wordle Solver:
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.File;
+import java.io.IOException;
+import java.util.Iterator;
+
+public class WordleSolver {
+    // ArrayList to store all possible words
+    ArrayList<String> words;
+    
+    /**
+     * Constructor to initialize the WordleSolver object and load words from a file.
+     */
+    public WordleSolver() {
+        // Initialize the ArrayList to store words
+        words = new ArrayList<String>();
+        try {
+            // Read words from a file and add them to the ArrayList
+            Scanner sc = new Scanner(new File("words.txt"));
+            while(sc.hasNext()) {
+                words.add(sc.next());
+            }
+        } catch (IOException e) {
+            // Handle IOException if file reading fails
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    /**
+     * Eliminates words from the list of possible words based on the guess and colors provided.
+     * 
+     * @param guess The guessed word.
+     * @param colors The feedback colors for the guessed word.
+     */
+    public void eliminateWords(String guess, String colors) {
+        // Convert guess and colors to uppercase for consistency
+        colors = colors.toUpperCase();
+        guess = guess.toUpperCase();
+        System.out.println(guess + " " + colors);
+        
+        // Initialize ArrayLists to store characters that are not present or present in the guess
+        ArrayList<Character> no = new ArrayList<Character>();
+        ArrayList<Character> has = new ArrayList<Character>();
+        // Arrays to store characters that are in correct position and correct letter but wrong position
+        char[] green = new char[5];
+        char[] yellow = new char[5];
+        
+        // Loop through each character in the guess and colors
+        for(int i = 0; i < 5; i++) {
+            // If color is 'N', add the character to 'no' list
+            if(colors.charAt(i) == 'N') {
+                no.add(guess.charAt(i));
+            }
+            // If color is 'G', store the character in 'green' array
+            else if(colors.charAt(i) == 'G') {
+                green[i] = guess.charAt(i);
+            }
+            // If color is 'Y', store the character in 'yellow' array and add it to 'has' list
+            else {
+                yellow[i] = guess.charAt(i);
+                has.add(guess.charAt(i));
+            }
+        }
+        
+        // Iterator to traverse through the list of possible words
+        Iterator<String> iter = words.iterator();
+        while(iter.hasNext()) {
+            String s = iter.next();
+            boolean remove = false;
+            // Loop through each character in the current word
+            for(int i = 0; i < 5; i++) {
+                Character c = s.charAt(i);
+                // If the character is present in 'no' list, mark the word for removal
+                if(no.contains(c)) {
+                    remove = true;
+                }
+                // If the character is in 'green' array but not at the same position, mark the word for removal
+                if(Character.isLetter(green[i]) && c != green[i]) {
+                    remove = true;
+                }
+                // If the character is in 'yellow' array but at the same position, mark the word for removal
+                if(Character.isLetter(yellow[i]) && c == yellow[i]) {
+                    remove = true;
+                }
+                // If the character is present in 'has' list, remove it from the list
+                if(has.contains(c)) {
+                    has.remove(c);
+                }
+            }
+            // If any conditions for removal are met, remove the word from the list of possible words
+            if(remove || has.size() > 0) {
+                iter.remove();
+            }
+        }
+    }
+    
+    /**
+     * Checks if the input guess is a valid 5-letter word.
+     * 
+     * @param str The input guess.
+     * @return true if the guess is valid, false otherwise.
+     */
+    public boolean validGuess(String str) {
+        // Check if the length of the guess is 5
+        if(str.length() != 5) {
+            return false;
+        }
+        // Check if all characters in the guess are letters
+        for(int i = 0; i < 5; i++) {
+            if(!Character.isLetter(str.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Checks if the input colors are valid feedback colors.
+     * 
+     * @param str The input colors.
+     * @return true if the colors are valid, false otherwise.
+     */
+    public boolean validColors(String str) {
+        // Check if the length of the colors is 5
+        if(str.length() != 5) {
+            return false;
+        }
+        // Convert colors to lowercase for comparison
+        str = str.toLowerCase();
+        // Check if each character is 'g', 'y', or 'n'
+        for(int i = 0; i < 5; i++) {
+            char c = str.charAt(i);
+            if(c != 'g' && c != 'y' && c != 'n') {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Returns the solution word if only one word remains in the list of possible words.
+     * 
+     * @return The solution word if found, otherwise null.
+     */
+    public String getSolution() {
+        if(words.size() == 1) {
+            return words.get(0);
+        }
+        return null;
+    }
+    
+    /**
+     * Prints the list of possible words along with their count.
+     */
+    public void printPossibleWords() {
+        System.out.println("Possible Words (" + words.size() + "): ");
+        System.out.println(words);
+    }
+}
