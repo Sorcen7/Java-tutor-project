@@ -350,6 +350,102 @@ public class StringManipulator {
     }
 }
 
+Lab 10.3 PigLatin:
+public class P4_Pan_Isaac_PigLatin
+{
+    public String translateToPigLatin(String str) {
+        String string = "";
+          
+        for(int i = 0; i < str.length(); i++) {
+            if(Character.isLetter(str.charAt(i))) {
+                String s = getWord(str, i);
+                int originalLength = s.length();
+                if(!hasVowels(s)) {
+                    s += "ay";
+                } else if(isVowel(str.charAt(i))) {
+                    s += "yay";
+                } else {
+                    int index = getFirstVowelIndex(s);
+                    String start = s.substring(0, index);
+                    String end = s.substring(index);
+                    if(Character.isUpperCase(start.charAt(0))) {
+                        start = Character.toLowerCase(start.charAt(0)) + start.substring(1);
+                        end = Character.toUpperCase(end.charAt(0)) + end.substring(1);
+                    }
+                
+                    s = end + start + "ay";
+                }
+                string += s;
+                i += originalLength - 1;
+            } else {
+                string += str.charAt(i);
+            }
+        }
+        return string;
+    }
+    
+    int indexOfNextWord(String str, int startIndex) {
+      int index = startIndex;
+      if(index >= str.length()) {
+          return -1;
+        }
+      while(!Character.isLetter(str.charAt(index))) {
+        if(index >= str.length()) {
+          return -1;
+        }
+        index++;
+        
+      }
+      return index;
+    }
+    
+    String getWord(String str, int startIndex) {
+      String s = "";
+      int index = startIndex;
+      while(Character.isLetter(str.charAt(index))) {
+        s += str.charAt(index);
+        index++;
+        if(index >= str.length()) {
+          return s;
+        }
+      }
+      return s;
+    }
+    
+    boolean hasVowels(String str) {
+      String s = "";
+      for(int i = 0; i < str.length(); i++) {
+        if(isVowel(str.charAt(i))) {
+    	return true;
+        }
+      }
+      return false;
+    }
+    
+    int getFirstVowelIndex(String str) {
+    	for(int i = 0; i < str.length(); i++) {
+            if(isVowel(str.charAt(i))) {
+        	return i;
+            }
+    	}
+    	return -1;
+    }
+    
+    boolean isVowel(char c) {
+    	c = Character.toLowerCase(c);
+    	if(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+            return true;
+        }
+    	return false;
+    }
+
+    public static void main(String[] args) {
+        P4_Pan_Isaac_PigLatin t = new P4_Pan_Isaac_PigLatin();
+        System.out.println(t.translateToPigLatin("Hey you! Do you know how to speak in Pig Latin?"));
+    }
+    
+}
+
 Lab 15.3 Wordle Solver:
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -510,3 +606,6 @@ public class WordleSolver {
         System.out.println(words);
     }
 }
+
+
+
