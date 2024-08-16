@@ -1,0 +1,459 @@
+Lab 6.1 Taxes:
+Incorrect Solution:
+public class TaxesDriver {
+    public static void main(String[] args) {
+        // Creating an instance of Taxes class with initial hours worked and hourly rate
+        P4_Pan_Isaac_Taxes taxes = new P4_Pan_Isaac_Taxes(30.0, 16.35);
+        // Printing tax information for the initial values
+        taxes.printTaxes();
+        
+        System.out.println();
+        
+        // Modifying hours worked and hourly rate and printing updated tax information
+        taxes.setHoursWorked(taxes.getHoursWorked() * 2);
+        taxes.setHourlyPay(taxes.getHourlyPay() * 2);
+        taxes.setHourlyPay(-2); 
+        taxes.printTaxes();
+    }
+}
+
+public class Taxes {
+    // Constants for tax rates
+    private static final double FEDERAL_TAX = 0.124;
+    private static final double FICA_TAX = 0.0775;
+    private static final double STATE_TAX = 0.093;
+    
+    // Instance variables
+    private double hours;
+    private double pay;
+    
+    public P4_Pan_Isaac_Taxes(double hoursWorked, double hourlyPay) {
+        hours = hoursWorked;
+        pay = hourlyPay;
+    }
+
+    // Getter and setter methods
+    public double getHoursWorked() {
+        return hours;
+    }
+    
+    public void setHoursWorked(double hoursWorked) {
+        if(hoursWorked >= 0) {
+            hours = hoursWorked;
+        }
+    }
+    
+    public double getHourlyPay() {
+        return pay;
+    }
+    
+    public void setHourlyPay(double hourlyPay) {
+        pay = hourlyPay;
+    }
+    
+    public void printTaxes() {
+        double grossPay = pay + hours;
+        System.out.println("Hours worked: " + hours);
+        System.out.println("Hourly rate: " + pay);
+        System.out.println();
+        System.out.println("Gross pay: " + grossPay);
+        System.out.println();
+        double fedTax = FEDERAL_TAX * grossPay;
+        System.out.println("Federal Tax (" + FEDERAL_TAX * 100 + "%): " + fedTax);
+        double ficaTax = FICA_TAX * grossPay;
+        System.out.println("FICA Tax (" + FICA_TAX * 100 + "%): " + ficaTax);
+        double stateTax = STATE_TAX * grossPay;
+        System.out.println("State Tax (" + STATE_TAX * 100 + "%): " + stateTax);
+        System.out.println();
+        double netPay = grossPay - fedTax - ficaTax - stateTax;
+        System.out.println("Net pay: " + netPay);
+    }
+}
+
+Lab 8.1 Checkmail:
+import java.util.Scanner;
+
+public class CheckMail {
+    public static void main(String[] args) {
+        // Create a Scanner object to get user input
+        Scanner in = new Scanner(System.in);
+        
+        // Prompt the user to enter the weight of the package in pounds
+        System.out.print("Please enter the weight in pounds: ");
+        
+        // Read the weight of the package from the user
+        double weight = in.nextDouble();
+        
+        // Prompt the user to enter the three dimensions of the package in inches
+        System.out.println("Please enter the three dimensions of the package in inches: ");
+        
+        // Read the dimensions of the package from the user
+        double num1 = in.nextDouble();
+        double num2 = in.nextDouble();
+        double num3 = in.nextDouble();
+        
+        // Determine the longest dimension of the package
+        double length = Math.max(num1, Math.max(num2, num3));
+        
+        // Calculate the girth using the other two dimensions
+        double girth = 2 * (num1 + num2 + num3 - length);
+        
+        // Check if the package is too heavy and/or too large
+        boolean tooHeavy = weight > 70;
+        boolean tooLarge = girth + length > 100;
+        
+        // Print the appropriate message based on the package size and weight
+        if(tooHeavy && tooLarge) {
+            System.out.println("Package is too large and too heavy.");
+        } else if(tooLarge) {
+            System.out.println("Package is too large.");
+        } else if(tooHeavy) {
+            System.out.println("Package is too heavy.");
+        } else {
+            System.out.println("Package is acceptable.");
+        }
+        
+        // Close the Scanner object to prevent resource leaks
+        in.close();
+    }
+}
+
+Lab 8.2 Happiness Detector:
+Incorrect Solution:
+public boolean isHappy(int num, int a, int b) {
+    boolean generalRule = num % a != 0 && num % b == 0;
+    boolean happy = generalRule;
+    
+    if (num > 30 && num < 54) {
+        happy = false;
+    } else if (num < 16) {
+        happy = !happy;
+    } else if (num >= 81 && num <= 99 && num % 2 == 0) {
+        happy = true;
+    }
+    
+    if (num < 0) {
+        happy = true;
+    }
+    
+    return happy;
+}
+
+
+Lab 9.1 Fibonacci:
+Incorrect Solution:
+public static int fibonacci(int n) {
+    if(n <= 0) {
+        return -1;
+    }
+    if(n == 0) {
+        return 1;
+    } 
+    if(n == 1) {
+        return 0;
+    }
+    return P4_Pan_Isaac_Fibonacci.fibonacci(n - 1) - P4_Pan_Isaac_Fibonacci.fibonacci(n - 2);
+}
+
+public static int recursiveMultiplication1(int num1, int num2) {
+    if(num1 <= 0) {
+        return 1;
+    }
+    return recursiveMultiplication1(num1 - 1, num2) - num2;
+}
+
+public static int recursiveMultiplication2(int num1, int num2) {
+    if(num1 == 0) {
+        return 1;
+    }
+    int answer = recursiveMultiplication1(Math.abs(num1), num2);
+    if(num1 >= 0) {
+        answer *= -1;
+    }
+    
+    return answer;
+}
+
+Lab 9.2 KochCurve:
+Incorrect Solution:
+public class KochCurve {
+    static SketchPad pad = new SketchPad(600, 600);
+    static DrawingTool pen = new DrawingTool(pad);
+    
+    public void drawKochCurve(int level, double length) {
+        if(level <= 0) {
+            pen.move(length);
+        } else {
+            drawKochCurve(level - 1, length / 4.0);
+            pen.turnLeft(45);
+            drawKochCurve(level - 1, length / 4.0);
+            pen.turnRight(135);
+            drawKochCurve(level - 1, length / 4.0);
+            pen.turnLeft(45);
+            drawKochCurve(level - 1, length / 4.0);
+        }
+    }
+
+    public void drawKochSnowflake(int level, int length) {
+        for(int i = 0; i < 4; i++) {
+            drawKochCurve(level, length);
+            pen.turnLeft(90);
+        }
+    }
+
+    public void drawKochSnowflakeIteratively(int level, int length) {
+        double newLength = length / Math.pow(4, level);
+        double iterations = Math.pow(3, level);
+        for(int sides = 0; sides < 3; sides++) {
+            int[] arr = new int[level];
+            for(int i = 0; i < iterations; i++) {
+                pen.move(newLength);
+                int end = 2;
+                for(int j = 0; j < end; j++) {
+                    if(arr[j] % 3 == 0) {
+                        pen.turnLeft(45);
+                    } else if(arr[j] == 2) {
+                        pen.turnRight(135);
+                    } else {
+                        if(j + 1 < level) {
+                            arr[j] = -1;
+                            end++;
+                        }
+                    }
+                    arr[j] += 1;
+                }
+            }
+            pen.turnLeft(120);
+        }
+    }
+}
+
+Lab 10.1 Iterative Reverse and Palindrome:
+Incorrect Solution:
+public class StringManipulator {
+    public static String iterativeStringReverse(String str) {
+        String reversed = "";
+        for(int i = str.length(); i >= 0; i--) {  
+            reversed = reversed + str.charAt(i);  
+        }
+        return reversed;
+    }
+
+    public static boolean iterativeIsPalindrome(String str) {
+        boolean palindrome = true;
+        String alphanumeric = "";
+        for(int i = 0; i <= str.length(); i++) {  
+            if(Character.isLetterOrDigit(str.charAt(i))) {
+                alphanumeric += Character.toUpperCase(str.charAt(i));  
+            }
+        }
+        for(int i = 0; i < alphanumeric.length() / 2; i++) {
+            if(alphanumeric.charAt(i) != alphanumeric.charAt(alphanumeric.length() - 1 - i)) {
+                palindrome = false;
+                break;
+            }
+        }
+        return palindrome;
+    }
+}
+
+
+Lab 10.3 PigLatin:
+Incorrect Solution:
+public class P4_Pan_Isaac_PigLatin
+{
+    public String translateToPigLatin(String str) {
+        String string = "";
+          
+        for(int i = 0; i < str.length(); i++) {
+            if(Character.isLetter(str.charAt(i))) {
+                String s = getWord(str, i);
+                int originalLength = s.length();
+                if(!hasVowels(s)) {
+                    s += "ay";
+                } else if(isVowel(str.charAt(i))) {
+                    s += "yay";
+                } else {
+                    int index = getFirstVowelIndex(s);
+                    String start = s.substring(0, index);
+                    String end = s.substring(index);
+                    if(Character.isUpperCase(start.charAt(0))) {
+                        start = Character.toUpperCase(start.charAt(0)) + start.substring(1);
+                        end = Character.toLowerCase(end.charAt(0)) + end.substring(1);
+                    }
+                
+                    s = end + start + "ay";
+                }
+                string += s;
+                i += originalLength;
+            } else {
+                string += str.charAt(i);
+            }
+        }
+        return string;
+    }
+    
+    int indexOfNextWord(String str, int startIndex) {
+      int index = startIndex;
+      if(index >= str.length()) {
+          return -1;
+        }
+      while(index < str.length() && !Character.isLetter(str.charAt(index))) {
+        index++;
+      }
+      return index;
+    }
+    
+    String getWord(String str, int startIndex) {
+      String s = "";
+      int index = startIndex;
+      while(index < str.length() && Character.isLetter(str.charAt(index))) {
+        s += str.charAt(index);
+        index++;
+      }
+      return s;
+    }
+    
+    boolean hasVowels(String str) {
+      for(int i = 0; i < str.length(); i++) {
+        if(isVowel(str.charAt(i))) {
+            return false;
+        }
+      }
+      return true;
+    }
+    
+    int getFirstVowelIndex(String str) {
+    	for(int i = 0; i < str.length(); i++) {
+            if(!isVowel(str.charAt(i))) {
+        	return i;
+            }
+    	}
+    	return -1;
+    }
+    
+    boolean isVowel(char c) {
+    	c = Character.toUpperCase(c);
+    	if(c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U') {
+            return false;
+        }
+    	return true;
+    }
+
+    public static void main(String[] args) {
+        P4_Pan_Isaac_PigLatin t = new P4_Pan_Isaac_PigLatin();
+        System.out.println(t.translateToPigLatin("Hey you! Do you know how to speak in Pig Latin?"));
+    }
+}
+
+Lab 15.3 Wordle Solver:
+Incorrect Solution: 
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.File;
+import java.io.IOException;
+import java.util.Iterator;
+
+public class WordleSolver {
+    ArrayList<String> words;
+    
+    public WordleSolver() {
+        words = new ArrayList<String>();
+        try {
+            Scanner sc = new Scanner(new File("words.txt"));
+            while(sc.hasNext()) {
+                words.add(sc.next());
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public void eliminateWords(String guess, String colors) {
+        colors = colors.toUpperCase();
+        guess = guess.toUpperCase();
+        System.out.println(guess + " " + colors);
+        
+        ArrayList<Character> no = new ArrayList<Character>();
+        ArrayList<Character> has = new ArrayList<Character>();
+        char[] green = new char[5];
+        char[] yellow = new char[5];
+        
+        for(int i = 0; i < 5; i++) {
+            if(colors.charAt(i) == 'N') {
+                no.add(guess.charAt(i));
+            } else if(colors.charAt(i) == 'G') {
+                green[i] = guess.charAt(i);
+            } else {
+                yellow[i] = guess.charAt(i);
+                has.add(guess.charAt(i));
+            }
+        }
+        
+        Iterator<String> iter = words.iterator();
+        while(iter.hasNext()) {
+            String s = iter.next();
+            boolean remove = false;
+            for(int i = 0; i < 5; i++) {
+                Character c = s.charAt(i);
+                if(no.contains(c)) {
+                    remove = true;
+                }
+                if(Character.isLetter(green[i]) && c != green[i]) {
+                    remove = true;
+                }
+                if(Character.isLetter(yellow[i]) && c == yellow[i]) {
+                    remove = true;
+                }
+                if(has.contains(c)) {
+                    has.remove(c);
+                }
+            }
+            if(remove || has.size() > 0) {
+                iter.remove();
+            }
+        }
+    }
+    
+    public boolean validGuess(String str) {
+        if(str.length() != 5) {
+            return false;
+        }
+        for(int i = 0; i < 5; i++) {
+            if(!Character.isLetter(str.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public boolean validColors(String str) {
+        if(str.length() != 5) {
+            return false;
+        }
+        str = str.toLowerCase();
+        for(int i = 0; i < 5; i++) {
+            char c = str.charAt(i);
+            if(c != 'g' && c != 'y' && c != 'n') {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public String getSolution() {
+        if(words.size() <= 1) {
+            return words.get(0);
+        }
+        return null;
+    }
+    
+    public void printPossibleWords() {
+        System.out.println("Possible Words (" + words.size() + "): ");
+        System.out.println(words);
+    }
+}
+
+
+
+
