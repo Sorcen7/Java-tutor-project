@@ -21,6 +21,25 @@ A local RAG (Retrieval-Augmented Generation) system for helping students with Ja
     pip install langchain langchain-community langchain-core langchain-huggingface faiss-cpu sentence-transformers rich streamlit
     ```
 
+### Docker Setup (For Portability)
+If you want to transfer this project to another machine easily, use Docker.
+
+**On the New Device:**
+1.  **Transfer the Code**: Copy the entire `Java-tutor-project` folder to the new machine.
+2.  **Build the Image** (inside the folder):
+    ```powershell
+    docker build -t java-tutor .
+    ```
+3.  **Run the Container**:
+    ```powershell
+    # Windows/Mac:
+    docker run -p 8501:8501 --add-host=host.docker.internal:host-gateway java-tutor
+    
+    # Linux:
+    docker run -p 8501:8501 --network="host" java-tutor
+    ```
+    *Note: Ollama must be running on your host machine.*
+
 ## Usage
 
 ### Web Interface (Recommended)
