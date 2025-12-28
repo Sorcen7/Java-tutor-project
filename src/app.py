@@ -19,7 +19,7 @@ def get_tutor():
     return JavaTutorRAG(data_dir=data_dir)
 
 st.title("☕ Java Tutor AI")
-st.markdown("ask me anything about your Java labs! I can help you plan, debug, and understand concepts, but **I won't write the code for you**.")
+st.markdown("Ask me anything about your Java labs! I can help you plan, debug, and understand concepts, but **I won't write the code for you**.")
 
 # Initialize chat history
 if "messages" not in st.session_state:
