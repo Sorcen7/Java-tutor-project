@@ -37,6 +37,12 @@ def main():
     
     print("\nSystem Loaded! Type '/quit' to exit, '/clear' to clear screen.")
     print("Enter your Java question below:\n")
+    
+    chat_history = []
+    
+    # Generate a session ID for this CLI run
+    import uuid
+    session_id = str(uuid.uuid4())
 
     while True:
         try:
@@ -56,9 +62,13 @@ def main():
             
             if user_input.lower() == '/clear':
                 os.system('cls' if os.name == 'nt' else 'clear')
+                # Start a new session on clear
+                session_id = str(uuid.uuid4())
                 continue
 
-            response = tutor.query(user_input)
+            # Pass session_id to query
+            response = tutor.query(user_input, session_id=session_id)
+            
             print_response(response)
 
         except KeyboardInterrupt:

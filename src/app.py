@@ -50,7 +50,19 @@ if prompt := st.chat_input("How can I help you with your Java assignment?"):
                 # We need to manually invoke the stream. 
                 # Note: The 'rag_chain' expects a string input if configured with RunnablePassthrough in previous steps,
                 # or a dict if configured differently. Our rag.py uses RunnablePassthrough for 'input'.
-                stream = tutor.rag_chain.stream(prompt)
+                # Use the new session-based history
+                # We simply pass the input and the session_id config
+                # The history is managed automatically by RunnableWithMessageHistory
+                
+                # We need a session_id for this user. unique per streamlit session.
+                if "session_id" not in st.session_state:
+                    import uuid
+                    st.session_state.session_id = str(uuid.uuid4())
+                
+                stream = tutor.rag_chain.stream(
+                    {"input": prompt},
+                    config={"configurable": {"session_id": st.session_state.session_id}}
+                )
                 
                 for chunk in stream:
                     # In LCEL, chunk from StrOutputParser is just a string

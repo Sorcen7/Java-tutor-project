@@ -3,10 +3,14 @@ from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
-from langchain_community.chat_models import ChatOllama
+from langchain_ollama import ChatOllama
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
+
+from langchain_community.chat_message_histories import ChatMessageHistory
+from langchain_core.runnables.history import RunnableWithMessageHistory
+from langchain_core.chat_history import BaseChatMessageHistory
 
 class JavaTutorRAG:
     def __init__(self, data_dir="data", model_name="llama3"):
@@ -14,7 +18,13 @@ class JavaTutorRAG:
         self.model_name = model_name
         self.embedding_model = "all-MiniLM-L6-v2"
         self.rag_chain = None
+        self.store = {}  # Store for session histories
         self.build_chain()
+
+    def get_session_history(self, session_id: str) -> BaseChatMessageHistory:
+        if session_id not in self.store:
+            self.store[session_id] = ChatMessageHistory()
+        return self.store[session_id]
 
     def load_documents(self):
         print(f"Loading documents from {self.data_dir}...")
@@ -42,8 +52,6 @@ class JavaTutorRAG:
 
         if os.path.exists(vector_store_path):
             print(f"Loading existing vector store from {vector_store_path}...")
-            # allow_dangerous_deserialization is needed because pickle can be unsafe, 
-            # but here we trust our own local file.
             vectorstore = FAISS.load_local(vector_store_path, embeddings, allow_dangerous_deserialization=True)
         else:
             print("Creating new vector store...")
@@ -62,45 +70,69 @@ class JavaTutorRAG:
         retriever = vectorstore.as_retriever()
         
         print(f"Initializing LLM ({self.model_name})...")
-        llm = ChatOllama(model=self.model_name, temperature=0.7)
+        llm = ChatOllama(model=self.model_name, temperature=0.1)
 
         system_prompt = (
-            "You are a Socratic Java Tutor. Your goal is to guide the student to the answer, providing support ONLY when needed.\n"
-            "PEDAGOGY GUIDELINES:\n"
-            "1. **Assess first**: If the user's question is vague, ask clarifying questions to gauge their understanding.\n"
-            "2. **Scaffolding**: If the student tries and fails, or admits they are stuck, provide a **small foothold**. Don't just ask another open-ended question. Give them a concrete starting point.\n"
-            "3. **Maintain Momentum**: If the student correctly identifies the next step (e.g., \"I need a constructor\"), CONFIRM it and guide them on HOW to do it. Do not force them to brainstorm unrelated features.\n"
-            "4. **Syntax vs Logic**: You MAY explain standard Java syntax (e.g., \"A constructor looks like public ClassName() {{ }}\"). You MUST NOT write the specific logic for the lab inside it.\n"
-            "5. **No Spoon-feeding**: NEVER provide the full code solution.\n"
-            "6. **Validation**: If they get part of it right, praise that specific part before moving to the next hurdle.\n"
+            "You are a Socratic Java Tutor. Your goal is to teach the student HOW to think, not just how to code.\n"
+            "\n"
+            "*** CRITICAL INSTRUCTIONS ***\n"
+            "1. **NO CODE DUMPING**: You are FORBIDDEN from generating full method bodies or complete logical solutions. If the context contains the answer, DO NOT COPY IT.\n"
+            "2. **USE STUBS**: When showing code structure, you MUST use comments like `// logic goes here` or `// ...` for the critical parts.\n"
+            "3. **ANTI-CHEAT**: If the user asks for the answer/code, REFUSE FIRMLY. Say: 'I cannot write the solution for you'.\n"
+            "\n"
+            "PEDAGOGY GUIDELINES (Deep Scaffolding):\n"
+            "1. **ASSESS FIRST (Crucial)**: Before helping, mentally check: 'Does the student understand the basic concept?'. If the question is vague (e.g., 'I'm stuck'), ASK a targeted question to locate the gap BEFORE giving hints.\n"
+            "2. **Syntax Help**: If asking for generic syntax (e.g. 'How do I make a loop?'), provide the template IMMEDIATELY.\n"
+            "3. **Trap Detection**: If user writes `4/3` or `string == string`, CORRECT IT immediately.\n"
+            "4. **Scaffolding**: Once the gap is found, give a **small foothold** (concept or partial snippet). Ask: 'What do you think happens next?'\n"
             "\n"
             "INTERACTION STYLE:\n"
-            "- **Address the user directly as 'You'**. NEVER refer to them as 'the student'.\n"
-            "- Be empathetic. Programming is hard.\n"
-            "- END EVERY TURN WITH A CONCRETE NEXT STEP OR QUESTION.\n"
+            "- Address user as 'You'.\n"
+            "- Be concise but encouraging.\n"
             "\n"
             "Context: {context}"
         )
 
+        from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+
         prompt = ChatPromptTemplate.from_messages(
             [
                 ("system", system_prompt),
+                MessagesPlaceholder(variable_name="history"),
                 ("human", "{input}"),
             ]
         )
 
-        self.rag_chain = (
-            {"context": retriever | self.format_docs, "input": RunnablePassthrough()}
+        from operator import itemgetter
+        
+        # Fix chain to handle dict input from RunnableWithMessageHistory
+        chain = (
+            {
+                "context": itemgetter("input") | retriever | self.format_docs,
+                "input": itemgetter("input"),
+                "history": itemgetter("history")
+            }
             | prompt
             | llm
             | StrOutputParser()
         )
-        print("RAG System Ready.")
+        
+        # Wrap with message history
+        self.rag_chain = RunnableWithMessageHistory(
+            chain,
+            self.get_session_history,
+            input_messages_key="input",
+            history_messages_key="history",
+        )
+        print("RAG System Ready (Native Memory Enabled).")
 
-    def query(self, user_input):
+    def query(self, user_input, session_id="default_session"):
         if not self.rag_chain:
             return "Error: RAG system not initialized."
         try:
-            return self.rag_chain.invoke(user_input)
+            return self.rag_chain.invoke(
+                {"input": user_input},
+                config={"configurable": {"session_id": session_id}}
+            )
         except Exception as e:
             return f"Error encountered: {e}"
